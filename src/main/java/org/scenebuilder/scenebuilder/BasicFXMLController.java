@@ -8,6 +8,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -23,22 +24,19 @@ public class BasicFXMLController {
     private Scene scene;
     private Parent root;
 
-    public void switchToMainScene(ActionEvent event) throws IOException {
-        switchScene(event, "mainFXML.fxml");
+    public void switchToTodoScene(MouseEvent event) throws IOException {
+        switchScene(event, "todoFXML.fxml");
     }
 
-    public void switchScene(ActionEvent event, String nextScene) throws IOException {
+    public void switchToMoneyScene(MouseEvent event) throws IOException {
+        switchScene(event, "moneyFXML.fxml");
+    }
+
+    public void switchScene(MouseEvent event, String nextScene) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(nextScene));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        // full screen dimensions
-        Rectangle2D screenDimensions = Screen.getPrimary().getVisualBounds();
-        double width = screenDimensions.getWidth();
-        double height = screenDimensions.getHeight();
-
-        Scene scene = new Scene(root, width, height);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
-        centerStage();
         stage.show();
     }
 

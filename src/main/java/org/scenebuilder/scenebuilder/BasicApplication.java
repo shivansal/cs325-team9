@@ -17,7 +17,7 @@ public class BasicApplication extends Application {
     public void start(Stage stage) throws Exception {
 
         // load fxml file (which specifies the controller)
-        Parent root = FXMLLoader.load(getClass().getResource("mainFXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("todoFXML.fxml"));
 
         // create new instance of the controller class
         // inject all fx:id tagged objects from fxml file
@@ -25,7 +25,6 @@ public class BasicApplication extends Application {
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
-
 
         stage.show();
     }
