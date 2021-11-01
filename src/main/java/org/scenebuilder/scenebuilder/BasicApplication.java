@@ -2,16 +2,17 @@ package org.scenebuilder.scenebuilder;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class BasicApplication extends Application {
 
+
+    private static ArrayList<String> taskCategories = new ArrayList<>();
+    private static ArrayList<TodoTask> todoTasks = new ArrayList<>();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -29,7 +30,46 @@ public class BasicApplication extends Application {
         stage.show();
     }
 
+    public static void loadCategories() {
+        taskCategories.add("None");
+        taskCategories.add("Assignments");
+        taskCategories.add("Other");
+    }
+
+    public static void loadTodoTasks() {
+
+        LocalDateTime rightNow = LocalDateTime.now();
+
+        TodoTask task1 = new TodoTask("Task 1", rightNow, "Never", "Medium" );
+        TodoTask task2 = new TodoTask("Task 2", rightNow, "Never", "Medium");
+
+        todoTasks.add(task1);
+        todoTasks.add(task2);
+    }
+
+    public static ArrayList<String> getTaskCategories() {
+        return taskCategories;
+    }
+
+    public static ArrayList<TodoTask> getTodoTasks() {
+        return todoTasks;
+    }
+
+    public static ArrayList<TodoTask> addTodoTask(TodoTask task) {
+
+        todoTasks.add(task);
+        return todoTasks;
+    }
+
+    public static ArrayList<TodoTask> removeTodoTask(TodoTask task) {
+
+        todoTasks.remove(task);
+        return todoTasks;
+    }
+
     public static void main(String[] args) {
+        loadCategories();
+        loadTodoTasks();
         launch();
     }
 }
