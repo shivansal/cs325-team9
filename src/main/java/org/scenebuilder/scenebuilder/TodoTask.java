@@ -13,10 +13,11 @@ public class TodoTask {
 
     private ArrayList<String> taskCategories = new ArrayList<>();
 
-    public TodoTask(String taskName, LocalDateTime taskDateTime, String taskRecurringKey, String taskPriority) {
+    public TodoTask(String taskName, LocalDateTime taskDateTime, String taskRecurringKey, boolean[] taskRecurringDays, String taskPriority) {
         this.taskName = taskName;
         this.taskDateTime = taskDateTime;
         this.taskRecurringKey = taskRecurringKey;
+        this.taskRecurringDays = taskRecurringDays;
         this.taskPriority = taskPriority;
     }
 

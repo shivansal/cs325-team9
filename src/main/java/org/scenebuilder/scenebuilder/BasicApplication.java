@@ -40,8 +40,9 @@ public class BasicApplication extends Application {
 
         LocalDateTime rightNow = LocalDateTime.now();
 
-        TodoTask task1 = new TodoTask("Task 1", rightNow, "Never", "Medium" );
-        TodoTask task2 = new TodoTask("Task 2", rightNow, "Never", "Medium");
+        boolean[] ar = {false, false, false, false, false, false, false};
+        TodoTask task1 = new TodoTask("Task 1", rightNow, "Never", ar,"Medium" );
+        TodoTask task2 = new TodoTask("Task 2", rightNow, "Never", ar,"Medium");
 
         todoTasks.add(task1);
         todoTasks.add(task2);

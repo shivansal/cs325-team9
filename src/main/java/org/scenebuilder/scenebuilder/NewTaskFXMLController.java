@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -22,6 +24,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class NewTaskFXMLController {
@@ -31,34 +34,68 @@ public class NewTaskFXMLController {
     @FXML
     private VBox categoriesVbox;
     @FXML
+    private TextField taskNameTextField;
+    @FXML
     private ComboBox taskCategoriesDropdown;
+    @FXML
+    private ComboBox recurringComboBox;
+    @FXML
+    private ToggleButton sunToggleButton;
+    @FXML
+    private ToggleButton monToggleButton;
+    @FXML
+    private ToggleButton tueToggleButton;
+    @FXML
+    private ToggleButton wedToggleButton;
+    @FXML
+    private ToggleButton thuToggleButton;
+    @FXML
+    private ToggleButton friToggleButton;
+    @FXML
+    private ToggleButton satToggleButton;
+    @FXML
+    private ComboBox priorityComboBox;
+
 
     private Stage stage;
+    private DateTimePicker dateTimePicker;
+
     private ArrayList<String> taskCategories = new ArrayList<>();
 
     public void initialize() {
 
-        // load categories types from main
+        // load category types from main
         taskCategories = BasicApplication.getTaskCategories();
 
-        // add categories to dropdown
+        // add categories to dropdown - None is selected initially
         taskCategoriesDropdown.setItems(FXCollections.observableArrayList(taskCategories));
-        taskCategoriesDropdown.getSelectionModel().select(0);
+        taskCategoriesDropdown.getSelectionModel().select(taskCategories.indexOf("None"));
 
-        // clear vbox children
-        categoriesVbox.getChildren().clear();
-
-        // add categories to vbox
-        taskCategories.forEach((n)-> {
-            addCategoryNode(n);
-        });
+        // add categories to vbox - no categories by default
+        //taskCategories.forEach((n)-> {
+        //    addCategoryNode(n);
+        //});
 
         // custom control with date + time
-        DateTimePicker dateTimePicker = new DateTimePicker();
+        dateTimePicker = new DateTimePicker();
         dateTimePicker.setLayoutX(172.0);
         dateTimePicker.setLayoutY(85.0);
 
+        // set default value to right now
+        dateTimePicker.setDateTimeValue(LocalDateTime.now());
         anchorPane.getChildren().add(dateTimePicker);
+
+        // recurring ComboBox
+        recurringComboBox.setItems(FXCollections.observableArrayList("Never", "Weekly", "Bi-Weekly"));
+
+        // set default recurring to never
+        recurringComboBox.getSelectionModel().select(0);
+
+        // priority ComboBox
+        priorityComboBox.setItems(FXCollections.observableArrayList("Highest", "High", "Medium", "Low", "Lowest"));
+
+        // default - medium
+        priorityComboBox.getSelectionModel().select(2);
     }
 
     public void addCategoryNode(String categoryLabel) {
@@ -93,12 +130,27 @@ public class NewTaskFXMLController {
     }
 
     @FXML
-    public void newCategory(ActionEvent event) {
-
+    public void manageCategories(ActionEvent event) {
+        // open category screen - add or remove categories as options
+        //todo
     }
 
     @FXML
     public void backFromNewTask(ActionEvent event) throws IOException {
+        switchScene(event, "todoFXML.fxml");
+    }
+
+    @FXML
+    public void saveNewTask(ActionEvent event) throws IOException {
+
+        String taskName = taskNameTextField.getText();
+        LocalDateTime taskDateTime = dateTimePicker.getDateTimeValue();
+        String taskRecurringKey = (String)recurringComboBox.getValue();
+        boolean[] taskRecurringDays = {sunToggleButton.isSelected(), monToggleButton.isSelected(), tueToggleButton.isSelected(),
+                wedToggleButton.isSelected(), thuToggleButton.isSelected(), friToggleButton.isSelected(), satToggleButton.isSelected()};
+        String taskPrio = (String)priorityComboBox.getValue();
+
+        BasicApplication.addTodoTask(new TodoTask(taskName, taskDateTime, taskRecurringKey, taskRecurringDays, taskPrio));
         switchScene(event, "todoFXML.fxml");
     }
 

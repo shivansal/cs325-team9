@@ -35,7 +35,6 @@ public class todoFXMLController {
     private Stage stage;
 
     private ArrayList<TodoTask> todoTasks = new ArrayList<>();
-    private ArrayList<HBox> todoTaskNodes = new ArrayList<>();
 
     private int selectedTask = -1;
 
@@ -101,6 +100,10 @@ public class todoFXMLController {
 
         // remove node
         taskVBox.getChildren().remove(selectedTask);
+
+        // remove task from task list
+        BasicApplication.removeTodoTask(todoTasks.get(selectedTask));
+        //todoTasks.remove(selectedTask);
 
         // no selected task exists
         selectedTask = -1;

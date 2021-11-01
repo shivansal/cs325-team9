@@ -15,7 +15,7 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/1.8.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.scenebuilder.scenebuilder.NewTaskFXMLController">
    <children>
-      <Button layoutX="14.0" layoutY="746.0" mnemonicParsing="false" onAction="#backFromNewTask" prefHeight="40.0" prefWidth="100.0" text="Back">
+      <Button layoutX="12.0" layoutY="746.0" mnemonicParsing="false" onAction="#backFromNewTask" prefHeight="40.0" prefWidth="100.0" text="Back">
          <font>
             <Font size="14.0" />
          </font>
@@ -25,7 +25,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField layoutX="114.0" layoutY="12.0" prefHeight="39.0" prefWidth="355.0" promptText="Task Name" style="-fx-border-color: black;">
+      <TextField fx:id="taskNameTextField" layoutX="114.0" layoutY="12.0" prefHeight="39.0" prefWidth="355.0" promptText="Task Name" style="-fx-border-color: black;">
          <font>
             <Font size="18.0" />
          </font>
@@ -40,48 +40,48 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <ToggleButton layoutX="97.0" layoutY="191.0" mnemonicParsing="false" text="Mon">
+      <ToggleButton fx:id="monToggleButton" layoutX="97.0" layoutY="191.0" mnemonicParsing="false" text="Mon">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton layoutX="35.0" layoutY="191.0" mnemonicParsing="false" text="Sun">
+      <ToggleButton fx:id="sunToggleButton" layoutX="35.0" layoutY="191.0" mnemonicParsing="false" text="Sun">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton layoutX="165.0" layoutY="191.0" mnemonicParsing="false" text="Tue">
+      <ToggleButton fx:id="tueToggleButton" layoutX="165.0" layoutY="191.0" mnemonicParsing="false" text="Tue">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton layoutX="226.0" layoutY="191.0" mnemonicParsing="false" text="Wed">
+      <ToggleButton fx:id="wedToggleButton" layoutX="226.0" layoutY="191.0" mnemonicParsing="false" text="Wed">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton layoutX="296.0" layoutY="191.0" mnemonicParsing="false" text="Thu">
+      <ToggleButton fx:id="thuToggleButton" layoutX="296.0" layoutY="191.0" mnemonicParsing="false" text="Thu">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton layoutX="362.0" layoutY="191.0" mnemonicParsing="false" text="Fri">
+      <ToggleButton fx:id="friToggleButton" layoutX="362.0" layoutY="191.0" mnemonicParsing="false" text="Fri">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <ToggleButton layoutX="419.0" layoutY="191.0" mnemonicParsing="false" text="Sat">
+      <ToggleButton fx:id="satToggleButton" layoutX="419.0" layoutY="191.0" mnemonicParsing="false" text="Sat">
          <font>
             <Font size="18.0" />
          </font>
       </ToggleButton>
-      <Label layoutX="14.0" layoutY="297.0" prefHeight="35.0" prefWidth="123.0" text="Priority:">
+      <Label layoutX="14.0" layoutY="254.0" prefHeight="35.0" prefWidth="123.0" text="Priority:">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <ComboBox layoutX="137.0" layoutY="302.0" prefHeight="25.0" prefWidth="178.0" />
-      <ComboBox layoutX="137.0" layoutY="152.0" prefHeight="25.0" prefWidth="178.0" />
+      <ComboBox fx:id="priorityComboBox" layoutX="112.0" layoutY="259.0" prefHeight="25.0" prefWidth="92.0" />
+      <ComboBox fx:id="recurringComboBox" layoutX="137.0" layoutY="152.0" prefHeight="25.0" prefWidth="178.0" />
       <Label layoutX="14.0" layoutY="364.0" prefHeight="35.0" prefWidth="123.0" text="Categories:">
          <font>
             <Font size="24.0" />
@@ -113,17 +113,22 @@
          </content>
       </ScrollPane>
       <ComboBox fx:id="taskCategoriesDropdown" layoutX="158.0" layoutY="369.0" prefHeight="25.0" prefWidth="178.0" />
-      <Button layoutX="363.0" layoutY="713.0" mnemonicParsing="false" onAction="#newCategory" prefHeight="40.0" prefWidth="131.0" text="New Category">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
       <Button layoutX="348.0" layoutY="367.0" mnemonicParsing="false" onAction="#assignCategory" prefHeight="29.0" prefWidth="131.0" text="Assign Category">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button disable="true" layoutX="226.0" layoutY="713.0" mnemonicParsing="false" onAction="#removeCategory" prefHeight="40.0" prefWidth="131.0" text="Remove Category">
+      <Button disable="true" layoutX="362.0" layoutY="684.0" mnemonicParsing="false" onAction="#removeCategory" prefHeight="40.0" prefWidth="139.0" text="Remove Category">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="115.0" layoutY="746.0" mnemonicParsing="false" onAction="#saveNewTask" prefHeight="40.0" prefWidth="100.0" text="Save Task">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="362.0" layoutY="740.0" mnemonicParsing="false" onAction="#manageCategories" prefHeight="40.0" prefWidth="139.0" text="Manage Categories">
          <font>
             <Font size="14.0" />
          </font>
