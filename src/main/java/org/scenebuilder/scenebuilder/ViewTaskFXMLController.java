@@ -111,6 +111,15 @@ public class ViewTaskFXMLController {
 
         // default - medium
         priorityComboBox.getSelectionModel().select(priorityComboBox.getItems().indexOf(todoTask.getTaskPriority()));
+
+        // toggle button defaults
+        sunToggleButton.setSelected(todoTask.getTaskRecurringDays()[0]);
+        monToggleButton.setSelected(todoTask.getTaskRecurringDays()[1]);
+        tueToggleButton.setSelected(todoTask.getTaskRecurringDays()[2]);
+        wedToggleButton.setSelected(todoTask.getTaskRecurringDays()[3]);
+        thuToggleButton.setSelected(todoTask.getTaskRecurringDays()[4]);
+        friToggleButton.setSelected(todoTask.getTaskRecurringDays()[5]);
+        satToggleButton.setSelected(todoTask.getTaskRecurringDays()[6]);
     }
 
     public void addCategoryNode(String categoryString) {

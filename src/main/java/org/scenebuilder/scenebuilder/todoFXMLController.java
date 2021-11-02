@@ -148,6 +148,23 @@ public class todoFXMLController {
         });
     }
 
+    public void comboBoxActionEvent(ActionEvent event) {
+
+        // clear tasks
+        taskVBox.getChildren().clear();
+
+        String categoryFilter = (String)categoryComboBox.getValue();
+
+        todoTasks.forEach( (n) -> {
+           if(n.getTaskCategories().indexOf(categoryFilter) != -1 || categoryFilter.equals("None")) {
+               addTaskNode(n);
+           }
+        });
+
+
+
+    }
+
     public void removeTaskNode(ActionEvent event) {
 
         // remove node

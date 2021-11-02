@@ -59,7 +59,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <ComboBox fx:id="categoryComboBox" layoutX="346.0" layoutY="121.0" prefWidth="150.0" promptText="None" />
+      <ComboBox fx:id="categoryComboBox" layoutX="346.0" layoutY="121.0" onAction="#comboBoxActionEvent" prefWidth="150.0" promptText="None" />
       <Button fx:id="removeTaskButton" disable="true" layoutX="121.0" layoutY="746.0" mnemonicParsing="false" onAction="#removeTaskNode" prefHeight="40.0" prefWidth="108.0" text="Remove Task">
          <font>
             <Font size="14.0" />
