@@ -207,7 +207,6 @@ public class ViewTaskFXMLController {
         removeCategoryButton.setDisable(true);
 
         taskCategories.remove(selectedCategory);
-
         categoriesVbox.getChildren().remove(selectedCategory);
     }
 

@@ -1,6 +1,7 @@
 package org.scenebuilder.scenebuilder;
 
 import javafx.animation.FadeTransition;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -23,7 +25,15 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.text.DateFormatSymbols;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class todoFXMLController {
 
@@ -33,6 +43,12 @@ public class todoFXMLController {
     Button removeTaskButton;
     @FXML
     Button viewTaskButton;
+    @FXML
+    Label currentTimeLabel;
+    @FXML
+    Label currentDateLabel;
+    @FXML
+    ComboBox categoryComboBox;
 
     private Stage stage;
 
@@ -41,6 +57,38 @@ public class todoFXMLController {
     private int selectedTask = -1;
 
     public void initialize() {
+
+        Locale locale = new Locale("en", "US");
+        DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(locale);
+
+        dateFormatSymbols.setWeekdays(new String[]{
+                "Unused",
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+        });
+
+        String pattern = "EEEEE, MMMMM dd, yyyy";
+        String patternTime = "hh:mm aa";
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, dateFormatSymbols);
+        SimpleDateFormat simpleTimeFormat = new SimpleDateFormat(patternTime);
+        String date = simpleDateFormat.format(new Date());
+        String time = simpleTimeFormat.format(new Date());
+
+        // update date - top left
+        currentDateLabel.setText(date.toString());
+
+        // update time - top left
+        currentTimeLabel.setText(time.toString());
+
+        // populate category drop down
+        List<String> dropDownItems = BasicApplication.getTaskCategories();
+        categoryComboBox.setItems(FXCollections.observableList(dropDownItems));
 
         // get list of tasks
         todoTasks = BasicApplication.getTodoTasks();
@@ -69,9 +117,10 @@ public class todoFXMLController {
 
         HBox.setMargin(tempLabel, new Insets(10,10,10,10));
 
-        Label tempLabelDate = new Label("Date");
+        Label tempLabelDate = new Label();
+        tempLabelDate.setText(LocalDateTimeToString(task.getLocalDateTime()));
         tempLabelDate.setPrefHeight(30.0);
-        tempLabelDate.setPrefWidth(150);
+        tempLabelDate.setPrefWidth(250);
         tempLabelDate.setFont(new Font(18));
         tempLabelDate.setStyle("-fx-border-color: black;");
         tempLabelDate.setPadding(new Insets(0, 0, 0, 10));
@@ -84,7 +133,7 @@ public class todoFXMLController {
 
         tempHBox.setOnMouseClicked(event -> {
 
-            // deselect all other tasks
+            // deselect all tasks
             taskVBox.getChildren().forEach((n) -> n.setStyle(null));
 
             // select clicked on task
@@ -137,6 +186,23 @@ public class todoFXMLController {
 
     public void newTaskEvent(ActionEvent event) throws IOException {
         switchScene(event, "newTaskFXML.fxml");
+    }
+
+    public String LocalDateTimeToString(LocalDateTime localDateTime) {
+
+        LocalDateTime to = localDateTime;
+        LocalDateTime from = LocalDateTime.now();
+
+        Duration duration = Duration.between(from, to);
+
+        String resultantString = "";
+        resultantString += String.format("%02d", (int)duration.toDaysPart());
+        resultantString += " : ";
+        resultantString += String.format("%02d", duration.toHoursPart());
+        resultantString += " : ";
+        resultantString += String.format("%02d", duration.toMinutesPart());
+
+        return resultantString;
     }
 
     public void switchScene(ActionEvent event, String nextScene) throws IOException {

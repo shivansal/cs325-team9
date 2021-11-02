@@ -9,16 +9,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/1.8.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.scenebuilder.scenebuilder.todoFXMLController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.scenebuilder.scenebuilder.todoFXMLController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="31.0" layoutX="19.0" layoutY="9.0" stroke="BLACK" strokeType="INSIDE" width="139.0" />
-      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="20.0" prefWidth="149.0" text="October 21, 2019" textAlignment="CENTER">
+      <Label fx:id="currentDateLabel" alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="23.0" prefWidth="257.0" style="-fx-border-color: black;" text="October 21, 2019" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" layoutX="19.0" layoutY="41.0" stroke="BLACK" strokeType="INSIDE" width="139.0" />
-      <Label alignment="CENTER" layoutX="14.0" layoutY="41.0" prefHeight="20.0" prefWidth="149.0" text="11:59 PM" textAlignment="CENTER">
+      <Label fx:id="currentTimeLabel" alignment="CENTER" layoutX="14.0" layoutY="43.0" prefHeight="20.0" prefWidth="257.0" style="-fx-border-color: black;" text="11:59 PM" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
@@ -61,7 +59,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <ComboBox layoutX="346.0" layoutY="121.0" prefWidth="150.0" promptText="None" />
+      <ComboBox fx:id="categoryComboBox" layoutX="346.0" layoutY="121.0" prefWidth="150.0" promptText="None" />
       <Button fx:id="removeTaskButton" disable="true" layoutX="121.0" layoutY="746.0" mnemonicParsing="false" onAction="#removeTaskNode" prefHeight="40.0" prefWidth="108.0" text="Remove Task">
          <font>
             <Font size="14.0" />
