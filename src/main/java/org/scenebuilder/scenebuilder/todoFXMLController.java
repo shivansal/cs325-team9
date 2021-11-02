@@ -31,6 +31,8 @@ public class todoFXMLController {
     VBox taskVBox;
     @FXML
     Button removeTaskButton;
+    @FXML
+    Button viewTaskButton;
 
     private Stage stage;
 
@@ -88,8 +90,9 @@ public class todoFXMLController {
             // select clicked on task
             tempHBox.setStyle("-fx-border-color: blue;");
 
-            // enable remove button
+            // enable relevant buttons
             removeTaskButton.setDisable(false);
+            viewTaskButton.setDisable(false);
 
             // update selected task
             selectedTask = taskVBox.getChildren().indexOf(tempHBox);
@@ -108,6 +111,24 @@ public class todoFXMLController {
         // no selected task exists
         selectedTask = -1;
         removeTaskButton.setDisable(true);
+    }
+
+    public void viewTaskNode(ActionEvent event) throws IOException {
+
+        // get selected task
+        TodoTask task = todoTasks.get(selectedTask);
+
+        // update todoTasks
+        todoTasks = BasicApplication.getTodoTasks();
+
+        // give todoTask to ViewTaskFXMLController
+        ViewTaskFXMLController.setTodoTask(todoTasks.get(selectedTask), selectedTask);
+
+        switchScene(event, "viewTaskFXML.fxml");
+
+        selectedTask = -1;
+        removeTaskButton.setDisable(true);
+        viewTaskButton.setDisable(true);
     }
 
     public void switchToMoneyScene(MouseEvent event) throws IOException {

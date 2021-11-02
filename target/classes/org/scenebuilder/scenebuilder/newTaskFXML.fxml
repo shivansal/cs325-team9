@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -8,9 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/1.8.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.scenebuilder.scenebuilder.NewTaskFXMLController">
@@ -89,27 +86,7 @@
       </Label>
       <ScrollPane layoutX="14.0" layoutY="409.0" prefHeight="295.0" prefWidth="485.0" style="-fx-background-color: transparent;">
          <content>
-            <VBox fx:id="categoriesVbox" prefHeight="287.0" prefWidth="477.0">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="477.0">
-                     <children>
-                        <Circle radius="5.0" stroke="BLACK" strokeType="INSIDE">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </Circle>
-                        <Label text="Assignments">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
+            <VBox fx:id="categoriesVbox" prefHeight="287.0" prefWidth="477.0" />
          </content>
       </ScrollPane>
       <ComboBox fx:id="taskCategoriesDropdown" layoutX="158.0" layoutY="369.0" prefHeight="25.0" prefWidth="178.0" />
@@ -118,7 +95,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button disable="true" layoutX="362.0" layoutY="684.0" mnemonicParsing="false" onAction="#removeCategory" prefHeight="40.0" prefWidth="139.0" text="Remove Category">
+      <Button fx:id="removeCategoryButton" disable="true" layoutX="362.0" layoutY="684.0" mnemonicParsing="false" onAction="#removeCategory" prefHeight="40.0" prefWidth="139.0" text="Remove Category">
          <font>
             <Font size="14.0" />
          </font>
@@ -128,7 +105,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="362.0" layoutY="740.0" mnemonicParsing="false" onAction="#manageCategories" prefHeight="40.0" prefWidth="139.0" text="Manage Categories">
+      <Button fx:id="manageCategoriesButton" layoutX="362.0" layoutY="740.0" mnemonicParsing="false" onAction="#manageCategories" prefHeight="40.0" prefWidth="139.0" text="Manage Categories">
          <font>
             <Font size="14.0" />
          </font>

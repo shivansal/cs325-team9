@@ -50,7 +50,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button disable="true" layoutX="346.0" layoutY="746.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="160.0" text="View Task Details">
+      <Button fx:id="viewTaskButton" disable="true" layoutX="346.0" layoutY="746.0" mnemonicParsing="false" onAction="#viewTaskNode" prefHeight="40.0" prefWidth="160.0" text="View Task Details">
          <font>
             <Font size="14.0" />
          </font>

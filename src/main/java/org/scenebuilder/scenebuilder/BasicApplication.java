@@ -41,8 +41,8 @@ public class BasicApplication extends Application {
         LocalDateTime rightNow = LocalDateTime.now();
 
         boolean[] ar = {false, false, false, false, false, false, false};
-        TodoTask task1 = new TodoTask("Task 1", rightNow, "Never", ar,"Medium" );
-        TodoTask task2 = new TodoTask("Task 2", rightNow, "Never", ar,"Medium");
+        TodoTask task1 = new TodoTask("Task 1", rightNow, "Never", ar,"Medium", new ArrayList<String>());
+        TodoTask task2 = new TodoTask("Task 2", rightNow, "Never", ar,"Medium", new ArrayList<String>());
 
         todoTasks.add(task1);
         todoTasks.add(task2);
@@ -60,6 +60,10 @@ public class BasicApplication extends Application {
 
         todoTasks.add(task);
         return todoTasks;
+    }
+
+    public static void setTodoTask(int i, TodoTask task) {
+        todoTasks.set(i, task);
     }
 
     public static ArrayList<TodoTask> removeTodoTask(TodoTask task) {

@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class NewTaskFXMLController {
+public class ViewTaskFXMLController {
 
     @FXML
     private AnchorPane anchorPane;
@@ -56,71 +56,99 @@ public class NewTaskFXMLController {
     @FXML
     private Button manageCategoriesButton;
 
-
     private Stage stage;
     private DateTimePicker dateTimePicker;
 
-    private ArrayList<String> categories = new ArrayList<>();
     private ArrayList<String> taskCategories = new ArrayList<>();
+    private int selectedCategory = -1;
 
-    private static int selectedCategory = -1;
+    private static TodoTask todoTask;
+    private static int selectedTaskNum = -1;
+
+
+    public static void setTodoTask(TodoTask task, int i) {
+        todoTask = task;
+        selectedTaskNum = i;
+    }
 
 
     public void initialize() {
 
         // load category types from main
-        categories = BasicApplication.getTaskCategories();
+        taskCategories = BasicApplication.getTaskCategories();
 
-        // add categories to dropdown - None is selected initially
-        taskCategoriesDropdown.setItems(FXCollections.observableArrayList(categories));
-        taskCategoriesDropdown.getSelectionModel().select(categories.indexOf("None"));
+        // add categories to dropdown - None as default
+        taskCategoriesDropdown.setItems(FXCollections.observableArrayList(taskCategories));
+        taskCategoriesDropdown.getSelectionModel().select(taskCategories.indexOf("None"));
+
+        taskCategories = todoTask.getTaskCategories();
 
         // add categories to vbox - no categories by default
-        //taskCategories.forEach((n)-> {
-        //    addCategoryNode(n);
-        //});
+        taskCategories.forEach((n)-> {
+            addCategoryNode(n);
+        });
+
+        // set default name
+        taskNameTextField.setText(todoTask.getTaskName());
 
         // custom control with date + time
         dateTimePicker = new DateTimePicker();
         dateTimePicker.setLayoutX(172.0);
         dateTimePicker.setLayoutY(85.0);
 
-        // set default value to right now
-
-        LocalDateTime rightNow = LocalDateTime.now();
-        dateTimePicker.setDateTimeValue(rightNow);
+        // set default value
+        dateTimePicker.setDateTimeValue(todoTask.getLocalDateTime());
         anchorPane.getChildren().add(dateTimePicker);
 
         // recurring ComboBox
         recurringComboBox.setItems(FXCollections.observableArrayList("Never", "Weekly", "Bi-Weekly"));
 
         // set default recurring to never
-        recurringComboBox.getSelectionModel().select(0);
+        recurringComboBox.getSelectionModel().select(recurringComboBox.getItems().indexOf(todoTask.getTaskRecurringKey()));
 
         // priority ComboBox
         priorityComboBox.setItems(FXCollections.observableArrayList("Highest", "High", "Medium", "Low", "Lowest"));
 
         // default - medium
-        priorityComboBox.getSelectionModel().select(2);
+        priorityComboBox.getSelectionModel().select(priorityComboBox.getItems().indexOf(todoTask.getTaskPriority()));
     }
 
-    public void addCategoryNode(String categoryLabel) {
+    public void addCategoryNode(String categoryString) {
 
         HBox tempHBox = new HBox();
         tempHBox.setAlignment(Pos.CENTER_LEFT);
-        tempHBox.setPrefHeight(35);
-        tempHBox.setPrefWidth(480);
 
         Circle tempCircle = new Circle();
         tempCircle.setRadius(5.0);
         tempCircle.setFill(Color.BLACK);
-        HBox.setMargin(tempCircle, new Insets(5, 10, 5, 10));
 
-        Label tempLabel = new Label(categoryLabel);
+        HBox.setMargin(tempCircle, new Insets(5, 5, 5, 5));
+
+        Label tempLabel = new Label(categoryString);
+        tempLabel.setPrefHeight(30.0);
+        tempLabel.setPrefWidth(360.0);
         tempLabel.setFont(new Font(18));
-        HBox.setMargin(tempLabel, new Insets(1, 1, 1, 1));
+        tempLabel.setStyle("-fx-border-color: black;");
+        tempLabel.setPadding(new Insets(0, 0, 0, 10));
+
+        HBox.setMargin(tempLabel, new Insets(10,10,10,10));
 
         tempHBox.getChildren().addAll(tempCircle, tempLabel);
+
+        tempHBox.setOnMouseClicked(MouseEvent -> {
+
+            // deselect all tasks
+            categoriesVbox.getChildren().forEach((n) -> n.setStyle(null));
+
+            // select clicked on task
+            tempHBox.setStyle("-fx-border-color: blue;");
+
+            // enable relevant buttons
+            removeCategoryButton.setDisable(false);
+
+            // update selected task
+            selectedCategory = categoriesVbox.getChildren().indexOf(tempHBox);
+        });
 
         categoriesVbox.getChildren().add(tempHBox);
     }
@@ -178,6 +206,8 @@ public class NewTaskFXMLController {
         // disable remove button
         removeCategoryButton.setDisable(true);
 
+        taskCategories.remove(selectedCategory);
+
         categoriesVbox.getChildren().remove(selectedCategory);
     }
 
@@ -202,7 +232,7 @@ public class NewTaskFXMLController {
                 wedToggleButton.isSelected(), thuToggleButton.isSelected(), friToggleButton.isSelected(), satToggleButton.isSelected()};
         String taskPrio = (String)priorityComboBox.getValue();
 
-        BasicApplication.addTodoTask(new TodoTask(taskName, taskDateTime, taskRecurringKey, taskRecurringDays, taskPrio, taskCategories));
+        BasicApplication.setTodoTask(selectedTaskNum, new TodoTask(taskName, taskDateTime, taskRecurringKey, taskRecurringDays, taskPrio, taskCategories));
         switchScene(event, "todoFXML.fxml");
     }
 
@@ -226,3 +256,4 @@ public class NewTaskFXMLController {
 
 
 }
+

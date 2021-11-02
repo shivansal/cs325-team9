@@ -13,12 +13,13 @@ public class TodoTask {
 
     private ArrayList<String> taskCategories = new ArrayList<>();
 
-    public TodoTask(String taskName, LocalDateTime taskDateTime, String taskRecurringKey, boolean[] taskRecurringDays, String taskPriority) {
+    public TodoTask(String taskName, LocalDateTime taskDateTime, String taskRecurringKey, boolean[] taskRecurringDays, String taskPriority, ArrayList<String> taskCategories) {
         this.taskName = taskName;
         this.taskDateTime = taskDateTime;
         this.taskRecurringKey = taskRecurringKey;
         this.taskRecurringDays = taskRecurringDays;
         this.taskPriority = taskPriority;
+        this.taskCategories = taskCategories;
     }
 
     public String getTaskName() {
@@ -39,5 +40,13 @@ public class TodoTask {
 
     public String getTaskPriority() {
         return taskPriority;
+    }
+
+    public void addTaskCategories(String category) {
+        taskCategories.add(category);
+    }
+
+    public ArrayList<String> getTaskCategories() {
+        return taskCategories;
     }
 }
