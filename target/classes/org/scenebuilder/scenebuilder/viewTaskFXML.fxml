@@ -95,7 +95,7 @@
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="removeCategoryButton" disable="true" layoutX="362.0" layoutY="684.0" mnemonicParsing="false" onAction="#removeCategory" prefHeight="40.0" prefWidth="139.0" text="Remove Category">
+        <Button fx:id="removeCategoryButton" disable="true" layoutX="346.0" layoutY="684.0" mnemonicParsing="false" onAction="#removeCategory" prefHeight="40.0" prefWidth="155.0" text="Remove Category">
             <font>
                 <Font size="14.0" />
             </font>
@@ -105,7 +105,7 @@
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="manageCategoriesButton" layoutX="362.0" layoutY="740.0" mnemonicParsing="false" onAction="#manageCategories" prefHeight="40.0" prefWidth="139.0" text="Manage Categories">
+        <Button fx:id="manageCategoriesButton" layoutX="346.0" layoutY="740.0" mnemonicParsing="false" onAction="#manageCategories" prefHeight="40.0" prefWidth="155.0" text="Manage Categories">
             <font>
                 <Font size="14.0" />
             </font>

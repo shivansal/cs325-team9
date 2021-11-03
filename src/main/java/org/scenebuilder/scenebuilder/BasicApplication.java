@@ -5,13 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class BasicApplication extends Application {
 
 
-    private static ArrayList<String> taskCategories = new ArrayList<>();
+    private static ArrayList<String> categoryTypes = new ArrayList<>();
     private static ArrayList<TodoTask> todoTasks = new ArrayList<>();
 
     @Override
@@ -31,9 +32,9 @@ public class BasicApplication extends Application {
     }
 
     public static void loadCategories() {
-        taskCategories.add("None");
-        taskCategories.add("Assignments");
-        taskCategories.add("Other");
+        categoryTypes.add("None");
+        categoryTypes.add("Assignments");
+        categoryTypes.add("Other");
     }
 
     public static void loadTodoTasks() {
@@ -48,8 +49,8 @@ public class BasicApplication extends Application {
         todoTasks.add(task2);
     }
 
-    public static ArrayList<String> getTaskCategories() {
-        return taskCategories;
+    public static ArrayList<String> getCategoryTypes() {
+        return categoryTypes;
     }
 
     public static ArrayList<TodoTask> getTodoTasks() {
@@ -64,6 +65,10 @@ public class BasicApplication extends Application {
 
     public static void setTodoTask(int i, TodoTask task) {
         todoTasks.set(i, task);
+    }
+
+    public static void setCategoryTypes(ArrayList<String> categories) {
+        categoryTypes = categories;
     }
 
     public static ArrayList<TodoTask> removeTodoTask(TodoTask task) {

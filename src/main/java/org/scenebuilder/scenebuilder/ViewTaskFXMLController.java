@@ -65,7 +65,6 @@ public class ViewTaskFXMLController {
     private static TodoTask todoTask;
     private static int selectedTaskNum = -1;
 
-
     public static void setTodoTask(TodoTask task, int i) {
         todoTask = task;
         selectedTaskNum = i;
@@ -75,7 +74,7 @@ public class ViewTaskFXMLController {
     public void initialize() {
 
         // load category types from main
-        taskCategories = BasicApplication.getTaskCategories();
+        taskCategories = BasicApplication.getCategoryTypes();
 
         // add categories to dropdown - None as default
         taskCategoriesDropdown.setItems(FXCollections.observableArrayList(taskCategories));
@@ -220,9 +219,13 @@ public class ViewTaskFXMLController {
     }
 
     @FXML
-    public void manageCategories(ActionEvent event) {
+    public void manageCategories(ActionEvent event) throws IOException {
         // open category screen - add or remove categories as options
-        //todo
+
+        // store info from this screen so we can come back later
+        CategoryManagerFXMLController.setSource("view");
+        CategoryManagerFXMLController.setTodoTask(todoTask, selectedTaskNum);
+        switchScene(event, "CategoryManagerFXML.fxml");
     }
 
     @FXML
