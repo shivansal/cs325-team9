@@ -12,13 +12,14 @@ import java.util.ArrayList;
 
 public class CSVReader {
 
-    private static final String SAMPLE_CSV_FILE_PATH = "./categories.csv";
+    private static final String CATEGORIES_CSV_FILE_PATH = "./categories.csv";
+    private static final String TODOTASKS_CSV_FILE_PATH = "./todotasks.csv";
 
     public static ArrayList<String> readCategoryCSV() throws IOException {
         ArrayList<String> categories = new ArrayList<>();
 
         try (
-                Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
+                Reader reader = Files.newBufferedReader(Paths.get(CATEGORIES_CSV_FILE_PATH));
                 CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
         ) {
             for (CSVRecord csvRecord : csvParser) {
@@ -30,5 +31,21 @@ public class CSVReader {
         }
 
         return categories;
+    }
+
+    public static ArrayList<String> readTodoTasksCSV() throws IOException {
+        ArrayList<String> todoTasks = new ArrayList<>();
+
+        try (
+                Reader reader = Files.newBufferedReader(Paths.get(TODOTASKS_CSV_FILE_PATH));
+                CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+                ) {
+            for (CSVRecord csvRecord : csvParser) {
+
+
+            }
+        }
+
+        return todoTasks;
     }
 }
