@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.scenebuilder.scenebuilder.CategoryManagerFXMLController">
+<AnchorPane prefHeight="800.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/1.8.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.scenebuilder.scenebuilder.CategoryManagerFXMLController">
    <children>
       <Button layoutX="14.0" layoutY="746.0" mnemonicParsing="false" onAction="#backFromCategoryManager" prefHeight="39.0" prefWidth="73.0" text="Back">
          <font>

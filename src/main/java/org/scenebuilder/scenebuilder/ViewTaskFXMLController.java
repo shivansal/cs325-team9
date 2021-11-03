@@ -59,7 +59,7 @@ public class ViewTaskFXMLController {
     private Stage stage;
     private DateTimePicker dateTimePicker;
 
-    private ArrayList<String> taskCategories = new ArrayList<>();
+    private ArrayList<String> categories = new ArrayList<>();
     private int selectedCategory = -1;
 
     private static TodoTask todoTask;
@@ -74,16 +74,17 @@ public class ViewTaskFXMLController {
     public void initialize() {
 
         // load category types from main
-        taskCategories = BasicApplication.getCategoryTypes();
+        //categories = new ArrayList<>(BasicApplication.getCategoryTypes());
+        categories = BasicApplication.getCategoryTypes();
 
         // add categories to dropdown - None as default
-        taskCategoriesDropdown.setItems(FXCollections.observableArrayList(taskCategories));
-        taskCategoriesDropdown.getSelectionModel().select(taskCategories.indexOf("None"));
+        taskCategoriesDropdown.setItems(FXCollections.observableArrayList(categories));
+        taskCategoriesDropdown.getSelectionModel().select(categories.indexOf("None"));
 
-        taskCategories = todoTask.getTaskCategories();
+        categories = new ArrayList<>(todoTask.getTaskCategories());
 
         // add categories to vbox - no categories by default
-        taskCategories.forEach((n)-> {
+        categories.forEach((n)-> {
             addCategoryNode(n);
         });
 
@@ -166,46 +167,16 @@ public class ViewTaskFXMLController {
 
         String categoryString = (String)taskCategoriesDropdown.getValue();
 
+        // do nothing if string is empty or
+        if(categoryString.length() == 0 || categories.indexOf(categoryString) != -1 || categoryString.equals("None")) {
+            return;
+        }
+
         // add category to task
-        taskCategories.add(categoryString);
+        categories.add(categoryString);
 
-        // add category to vbox
-        HBox tempHBox = new HBox();
-        tempHBox.setAlignment(Pos.CENTER_LEFT);
-
-        Circle tempCircle = new Circle();
-        tempCircle.setRadius(5.0);
-        tempCircle.setFill(Color.BLACK);
-
-        HBox.setMargin(tempCircle, new Insets(5, 5, 5, 5));
-
-        Label tempLabel = new Label(categoryString);
-        tempLabel.setPrefHeight(30.0);
-        tempLabel.setPrefWidth(360.0);
-        tempLabel.setFont(new Font(18));
-        tempLabel.setStyle("-fx-border-color: black;");
-        tempLabel.setPadding(new Insets(0, 0, 0, 10));
-
-        HBox.setMargin(tempLabel, new Insets(10,10,10,10));
-
-        tempHBox.getChildren().addAll(tempCircle, tempLabel);
-
-        tempHBox.setOnMouseClicked(MouseEvent -> {
-
-            // deselect all tasks
-            categoriesVbox.getChildren().forEach((n) -> n.setStyle(null));
-
-            // select clicked on task
-            tempHBox.setStyle("-fx-border-color: blue;");
-
-            // enable relevant buttons
-            removeCategoryButton.setDisable(false);
-
-            // update selected task
-            selectedCategory = categoriesVbox.getChildren().indexOf(tempHBox);
-        });
-
-        categoriesVbox.getChildren().add(tempHBox);
+        // add category node to categories vbox
+        addCategoryNode(categoryString);
     }
 
     @FXML
@@ -214,7 +185,7 @@ public class ViewTaskFXMLController {
         // disable remove button
         removeCategoryButton.setDisable(true);
 
-        taskCategories.remove(selectedCategory);
+        categories.remove(selectedCategory);
         categoriesVbox.getChildren().remove(selectedCategory);
     }
 
@@ -243,7 +214,7 @@ public class ViewTaskFXMLController {
                 wedToggleButton.isSelected(), thuToggleButton.isSelected(), friToggleButton.isSelected(), satToggleButton.isSelected()};
         String taskPrio = (String)priorityComboBox.getValue();
 
-        BasicApplication.setTodoTask(selectedTaskNum, new TodoTask(taskName, taskDateTime, taskRecurringKey, taskRecurringDays, taskPrio, taskCategories));
+        BasicApplication.setTodoTask(selectedTaskNum, new TodoTask(taskName, taskDateTime, taskRecurringKey, taskRecurringDays, taskPrio, categories));
         switchScene(event, "todoFXML.fxml");
     }
 

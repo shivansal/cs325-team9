@@ -1,22 +1,33 @@
 package org.scenebuilder.scenebuilder;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class BasicApplication extends Application {
 
-
     private static ArrayList<String> categoryTypes = new ArrayList<>();
     private static ArrayList<TodoTask> todoTasks = new ArrayList<>();
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent e) {
+                try {
+                    CSVWriter.writeCategoryCSV(categoryTypes);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         // load fxml file (which specifies the controller)
         Parent root = FXMLLoader.load(getClass().getResource("todoFXML.fxml"));
@@ -29,12 +40,6 @@ public class BasicApplication extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-    }
-
-    public static void loadCategories() {
-        categoryTypes.add("None");
-        categoryTypes.add("Assignments");
-        categoryTypes.add("Other");
     }
 
     public static void loadTodoTasks() {
@@ -77,9 +82,12 @@ public class BasicApplication extends Application {
         return todoTasks;
     }
 
-    public static void main(String[] args) {
-        loadCategories();
+    public static void main(String[] args) throws Exception {
+
+        categoryTypes = CSVReader.readCategoryCSV();
         loadTodoTasks();
         launch();
     }
+
+
 }

@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -108,7 +107,7 @@ public class CategoryManagerFXMLController {
         String categoryString = (String)categoryTextField.getText();
 
         // do nothing if string is empty or
-        if(categoryString.length() == 0 || taskCategories.indexOf(categoryString) != -1) {
+        if(categoryString.length() == 0 || taskCategories.indexOf(categoryString) != -1 || categoryString.equals("None")) {
             return;
         }
 
@@ -148,7 +147,7 @@ public class CategoryManagerFXMLController {
             removeCategoryButton.setDisable(false);
 
             // update selected task
-            selectedCategory = categoriesVBox.getChildren().indexOf(tempHBox);
+            selectedCategory = categoriesVBox.getChildren().indexOf(tempHBox) + 1;
         });
 
         categoriesVBox.getChildren().add(tempHBox);

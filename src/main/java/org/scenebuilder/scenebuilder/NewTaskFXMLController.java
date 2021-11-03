@@ -138,6 +138,11 @@ public class NewTaskFXMLController {
 
         String categoryString = (String)taskCategoriesDropdown.getValue();
 
+        // do nothing if string is empty or
+        if(categoryString.length() == 0 || taskCategories.indexOf(categoryString) != -1 || categoryString.equals("None")) {
+            return;
+        }
+
         // add category to task
         taskCategories.add(categoryString);
 
