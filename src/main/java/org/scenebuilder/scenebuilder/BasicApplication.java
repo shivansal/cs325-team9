@@ -35,7 +35,7 @@ public class BasicApplication extends Application {
 
     // setters
     public static void setCategoryTypes(ArrayList<String> categories) {
-        categoryTypes = categories;
+        categoryTypes = new ArrayList<>(categories);
     }
     public static void setTodoTask(int i, TodoTask task) {
         todoTasks.set(i, task);

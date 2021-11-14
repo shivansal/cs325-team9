@@ -9,7 +9,7 @@ public class NewTaskController extends TaskController {
 
     @Override
     protected void setInitialNameValue() {
-        int numTasks = BasicApplication.getTodoTasks().size();
+        int numTasks = BasicApplication.getTodoTasks().size() + 1;
         taskNameTextField.setText("Task " + numTasks);
     }
 

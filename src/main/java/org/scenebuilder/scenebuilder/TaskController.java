@@ -267,6 +267,13 @@ public abstract class TaskController {
         manageCategoriesButton.setLayoutY(750);
         manageCategoriesButton.setPrefWidth(buttonWidth);
         manageCategoriesButton.setPrefHeight(buttonHeight);
+        manageCategoriesButton.setOnAction(event -> {
+
+            Stage newStage = new Stage();
+
+            CategoryManagerController controller = new CategoryManagerController();
+            controller.initialize(newStage, this);
+        });
 
         anchorPane.getChildren().addAll(categoriesLabel, categoriesComboBox, assignCategoryButton, categoriesScrollPane, removeCategoryButton, manageCategoriesButton);
     }
@@ -348,6 +355,11 @@ public abstract class TaskController {
         stage.setScene(newScene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    public void updateCategories() {
+        categoriesComboBox.getItems().clear();
+        setInitialCategories();
     }
 
     protected void loadInTime(LocalTime localTime) {
@@ -472,4 +484,6 @@ public abstract class TaskController {
 
         removeCategoryButton.setDisable(true);
     }
+
+
 }

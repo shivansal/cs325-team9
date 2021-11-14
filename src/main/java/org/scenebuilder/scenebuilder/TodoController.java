@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TodoController extends TabController {
@@ -23,6 +24,8 @@ public class TodoController extends TabController {
     private Label categoryLabel;
     private ComboBox categoryComboBox;
     private void initHeading(double x, double y) {
+
+        filteredTasks = new ArrayList<>(BasicApplication.getTodoTasks());
 
         todoLabel = new Label("Todo:");
         todoLabel.setFont(new Font(24));
@@ -46,6 +49,22 @@ public class TodoController extends TabController {
         categoryComboBox.setItems(FXCollections.observableList(dropDownItems));
         categoryComboBox.getSelectionModel().select(0);
 
+        categoryComboBox.setOnAction(event -> {
+
+            // clear tasks
+            taskVBox.getChildren().clear();
+            filteredTasks.clear();
+
+            String categoryFilter = (String)categoryComboBox.getValue();
+
+            BasicApplication.getTodoTasks().forEach( (n) -> {
+                if(n.getTaskCategories().indexOf(categoryFilter) != -1 || categoryFilter.equals("None")) {
+                    addTaskNode(n);
+                    filteredTasks.add(n);
+                }
+            });
+        });
+
         anchorPane.getChildren().addAll(todoLabel, categoryLabel, categoryComboBox);
     }
 
@@ -65,7 +84,7 @@ public class TodoController extends TabController {
         taskScrollPane.setContent(taskVBox);
 
         BasicApplication.getTodoTasks().forEach((task) -> {
-           addTask(task);
+           addTaskNode(task);
         });
 
         anchorPane.getChildren().addAll(taskScrollPane);
@@ -103,7 +122,7 @@ public class TodoController extends TabController {
             taskVBox.getChildren().remove(selectedTaskIndex);
 
             // remove task from task list
-            BasicApplication.removeTodoTask(selectedTaskIndex);
+            BasicApplication.removeTodoTask(filteredTasks.get(selectedTaskIndex));
 
             // no selected tasks exist
             selectedTaskIndex = -1;
@@ -128,6 +147,7 @@ public class TodoController extends TabController {
     }
 
     private int selectedTaskIndex;
+    private ArrayList<TodoTask> filteredTasks;
 
     public void initialize(Stage stage) {
 
@@ -138,7 +158,7 @@ public class TodoController extends TabController {
         initButtons(10, 750);
     }
 
-    private void addTask(TodoTask task) {
+    private void addTaskNode(TodoTask task) {
 
         // container for task (selection box)
         HBox tempHBox = new HBox();
