@@ -25,8 +25,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,9 +47,10 @@ public class todoFXMLController {
 
     private Stage stage;
 
-    private ArrayList<TodoTask> todoTasks = new ArrayList<>();
+    private ArrayList<TodoTask> todoTasks;
 
     private int selectedTask = -1;
+
 
     public void initialize() {
 
@@ -88,7 +87,7 @@ public class todoFXMLController {
         categoryComboBox.setItems(FXCollections.observableList(dropDownItems));
 
         // get list of tasks
-        todoTasks = BasicApplication.getTodoTasks();
+        todoTasks = new ArrayList<>(BasicApplication.getTodoTasks());
 
         // add tasks to todolist
         todoTasks.forEach((n) -> addTaskNode(n));
@@ -96,36 +95,39 @@ public class todoFXMLController {
 
     public void addTaskNode(TodoTask task) {
 
+        // container for task (selection box)
         HBox tempHBox = new HBox();
         tempHBox.setAlignment(Pos.CENTER_LEFT);
 
+        // bullet point
         Circle tempCircle = new Circle();
         tempCircle.setRadius(5.0);
         tempCircle.setFill(Color.BLACK);
-
         HBox.setMargin(tempCircle, new Insets(5, 5, 5, 5));
 
+        // task name
         Label tempLabel = new Label(task.getTaskName());
         tempLabel.setPrefHeight(30.0);
         tempLabel.setPrefWidth(360.0);
         tempLabel.setFont(new Font(18));
         tempLabel.setStyle("-fx-border-color: black;");
         tempLabel.setPadding(new Insets(0, 0, 0, 10));
-
         HBox.setMargin(tempLabel, new Insets(10,10,10,10));
 
+        // task due date countdown
         Label tempLabelDate = new Label();
-        tempLabelDate.setText(LocalDateTimeToString(task.getLocalDateTime()));
+        //tempLabelDate.setText(LocalDateTimeToString(task.getLocalDate()));
         tempLabelDate.setPrefHeight(30.0);
         tempLabelDate.setPrefWidth(250);
         tempLabelDate.setFont(new Font(18));
         tempLabelDate.setStyle("-fx-border-color: black;");
         tempLabelDate.setPadding(new Insets(0, 0, 0, 10));
-
         HBox.setMargin(tempLabelDate, new Insets(0, 10, 0, 10));
 
+        // add components to hbox
         tempHBox.getChildren().addAll(tempCircle, tempLabel, tempLabelDate);
 
+        // add hbox to parent
         taskVBox.getChildren().add(tempHBox);
 
         tempHBox.setOnMouseClicked(event -> {
@@ -199,24 +201,10 @@ public class todoFXMLController {
     }
 
     public void newTaskEvent(ActionEvent event) throws IOException {
-        switchScene(event, "newTaskFXML.fxml");
-    }
-
-    public String LocalDateTimeToString(LocalDateTime localDateTime) {
-
-        LocalDateTime to = localDateTime;
-        LocalDateTime from = LocalDateTime.now();
-
-        Duration duration = Duration.between(from, to);
-
-        String resultantString = "";
-        resultantString += String.format("%02d", (int)duration.toDaysPart());
-        resultantString += " : ";
-        resultantString += String.format("%02d", duration.toHoursPart());
-        resultantString += " : ";
-        resultantString += String.format("%02d", duration.toMinutesPart());
-
-        return resultantString;
+        //switchScene(event, "newTaskFXML.fxml");
+        NewTaskController controller = new NewTaskController();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        controller.initialize(stage);
     }
 
     public void switchScene(ActionEvent event, String nextScene) throws IOException {

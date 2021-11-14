@@ -7,8 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class BasicApplication extends Application {
@@ -23,69 +22,55 @@ public class BasicApplication extends Application {
             public void handle(WindowEvent e) {
                 try {
                     CSVWriter.writeCategoryCSV(categoryTypes);
+                    CSVWriter.writeTodoTaskCSV(todoTasks);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
 
-        // load fxml file (which specifies the controller)
-        Parent root = FXMLLoader.load(getClass().getResource("todoFXML.fxml"));
-
-        // create new instance of the controller class
-        // inject all fx:id tagged objects from fxml file
-        // and marked with @FXML annotation in controller
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        TodoController controller = new TodoController();
+        controller.initialize(stage);
     }
 
-    public static void loadTodoTasks() {
-
-        LocalDateTime rightNow = LocalDateTime.now();
-
-        boolean[] ar = {false, false, false, false, false, false, false};
-        TodoTask task1 = new TodoTask("Task 1", rightNow, "Never", ar,"Medium", new ArrayList<String>());
-        TodoTask task2 = new TodoTask("Task 2", rightNow, "Never", ar,"Medium", new ArrayList<String>());
-
-        todoTasks.add(task1);
-        todoTasks.add(task2);
+    // setters
+    public static void setCategoryTypes(ArrayList<String> categories) {
+        categoryTypes = categories;
+    }
+    public static void setTodoTask(int i, TodoTask task) {
+        todoTasks.set(i, task);
     }
 
+    // getters
     public static ArrayList<String> getCategoryTypes() {
         return categoryTypes;
     }
-
     public static ArrayList<TodoTask> getTodoTasks() {
         return todoTasks;
     }
 
+    // modifiers
     public static ArrayList<TodoTask> addTodoTask(TodoTask task) {
 
         todoTasks.add(task);
         return todoTasks;
     }
-
-    public static void setTodoTask(int i, TodoTask task) {
-        todoTasks.set(i, task);
-    }
-
-    public static void setCategoryTypes(ArrayList<String> categories) {
-        categoryTypes = categories;
-    }
-
     public static ArrayList<TodoTask> removeTodoTask(TodoTask task) {
 
         todoTasks.remove(task);
         return todoTasks;
     }
+    public static ArrayList<TodoTask> removeTodoTask(int taskIndex) {
+        todoTasks.remove(taskIndex);
+        return todoTasks;
+    }
 
     public static void main(String[] args) throws Exception {
 
+        // load categories and todoTasks from file
         categoryTypes = CSVReader.readCategoryCSV();
-        loadTodoTasks();
+        todoTasks = CSVReader.readTodoTasksCSV();
+
         launch();
     }
 

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.scenebuilder.scenebuilder.ViewTaskFXMLController">
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.scenebuilder.scenebuilder.NewTaskFXMLController">
     <children>
         <Button layoutX="12.0" layoutY="746.0" mnemonicParsing="false" onAction="#backFromNewTask" prefHeight="40.0" prefWidth="100.0" text="Back">
             <font>
@@ -119,25 +119,7 @@
         </Label>
         <HBox alignment="CENTER" layoutX="137.0" layoutY="114.0" prefHeight="42.0" prefWidth="219.0">
             <children>
-                <HBox alignment="CENTER" prefHeight="45.0" prefWidth="139.0" style="-fx-border-color: black;">
-                    <children>
-                        <TextField fx:id="hoursTextField" alignment="CENTER" prefHeight="39.0" prefWidth="43.0" promptText="00" style="-fx-background-color: transparent;">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                        </TextField>
-                        <Label text=":">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                        </Label>
-                        <TextField fx:id="minutesTextField" alignment="CENTER" prefHeight="39.0" prefWidth="43.0" promptText="00" style="-fx-background-color: transparent;">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                        </TextField>
-                    </children>
-                </HBox>
+                <HBox fx:id="timeHBox" alignment="CENTER" prefHeight="45.0" prefWidth="139.0" style="-fx-border-color: black;" />
                 <ComboBox fx:id="timeComboBox" prefHeight="25.0" prefWidth="77.0">
                     <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

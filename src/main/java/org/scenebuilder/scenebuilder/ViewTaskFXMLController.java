@@ -20,7 +20,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ViewTaskFXMLController {
@@ -57,7 +57,7 @@ public class ViewTaskFXMLController {
     private Button manageCategoriesButton;
 
     private Stage stage;
-    private DateTimePicker dateTimePicker;
+    private DatePicker datePicker;
 
     private ArrayList<String> categories = new ArrayList<>();
     private int selectedCategory = -1;
@@ -92,13 +92,13 @@ public class ViewTaskFXMLController {
         taskNameTextField.setText(todoTask.getTaskName());
 
         // custom control with date + time
-        dateTimePicker = new DateTimePicker();
-        dateTimePicker.setLayoutX(172.0);
-        dateTimePicker.setLayoutY(85.0);
+        datePicker = new DatePicker();
+        datePicker.setLayoutX(172.0);
+        datePicker.setLayoutY(85.0);
 
         // set default value
-        dateTimePicker.setDateTimeValue(todoTask.getLocalDateTime());
-        anchorPane.getChildren().add(dateTimePicker);
+        datePicker.setValue(todoTask.getTaskDate());
+        anchorPane.getChildren().add(datePicker);
 
         // recurring ComboBox
         recurringComboBox.setItems(FXCollections.observableArrayList("Never", "Weekly", "Bi-Weekly"));
@@ -208,13 +208,18 @@ public class ViewTaskFXMLController {
     public void saveNewTask(ActionEvent event) throws IOException {
 
         String taskName = taskNameTextField.getText();
-        LocalDateTime taskDateTime = dateTimePicker.getDateTimeValue();
+        LocalDate taskDate = datePicker.getValue();
+        int year = taskDate.getYear();
+        int month = taskDate.getMonthValue();
+        int day = taskDate.getDayOfMonth();
+        System.out.println(month + "-" + day + "-" + year);
+        //System.out.println(hour + " : " + minute);
         String taskRecurringKey = (String)recurringComboBox.getValue();
         boolean[] taskRecurringDays = {sunToggleButton.isSelected(), monToggleButton.isSelected(), tueToggleButton.isSelected(),
                 wedToggleButton.isSelected(), thuToggleButton.isSelected(), friToggleButton.isSelected(), satToggleButton.isSelected()};
         String taskPrio = (String)priorityComboBox.getValue();
 
-        BasicApplication.setTodoTask(selectedTaskNum, new TodoTask(taskName, taskDateTime, taskRecurringKey, taskRecurringDays, taskPrio, categories));
+       // BasicApplication.setTodoTask(selectedTaskNum, new TodoTask(taskName, taskDate, taskRecurringKey, taskRecurringDays, taskPrio, categories));
         switchScene(event, "todoFXML.fxml");
     }
 
