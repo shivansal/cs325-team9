@@ -140,7 +140,7 @@ public class TodoController extends TabController {
 
         viewTaskDetailsButton.setOnAction(event -> {
             ViewTaskController controller = new ViewTaskController();
-            controller.initialize(stage, BasicApplication.getTodoTasks().get(selectedTaskIndex), selectedTaskIndex);
+            controller.initialize(stage, filteredTasks.get(selectedTaskIndex), BasicApplication.getTodoTasks().indexOf(filteredTasks.get(selectedTaskIndex)));
         });
 
         anchorPane.getChildren().addAll(newTaskButton, removeTaskButton, viewTaskDetailsButton);
@@ -152,6 +152,8 @@ public class TodoController extends TabController {
     public void initialize(Stage stage) {
 
         super.initialize(stage, "Todo");
+
+        BasicApplication.sortTodoTasksByDate();
 
         initHeading(10, 150);
         initTodoList(10, 200);
@@ -184,8 +186,9 @@ public class TodoController extends TabController {
         tempLabelDate.setPrefHeight(30.0);
         tempLabelDate.setPrefWidth(250);
         tempLabelDate.setFont(new Font(18));
+        tempLabelDate.setAlignment(Pos.CENTER);
         tempLabelDate.setStyle("-fx-border-color: black;");
-        tempLabelDate.setPadding(new Insets(0, 0, 0, 10));
+        tempLabelDate.setPadding(new Insets(0, 5, 0, 5));
         HBox.setMargin(tempLabelDate, new Insets(0, 10, 0, 10));
 
         tempLabelDate.setText(getCountDownString(task));
@@ -215,7 +218,7 @@ public class TodoController extends TabController {
         LocalDateTime rightNow = LocalDateTime.now();
         LocalDateTime taskDue = LocalDateTime.of(task.getTaskDate(), task.getTaskTime());
 
-        Duration duration = Duration.between(taskDue, rightNow);
+        Duration duration = Duration.between(rightNow, taskDue);
         int days = (int)duration.toDaysPart();
         int hours = duration.toHoursPart();
         int minutes = duration.toMinutesPart();
@@ -226,6 +229,6 @@ public class TodoController extends TabController {
                 " : " +
                 String.format("%02d", minutes);
 
-        return task.getTaskDate().toString();
+        return output;
     }
 }

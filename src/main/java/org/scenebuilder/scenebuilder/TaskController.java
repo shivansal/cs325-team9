@@ -485,5 +485,4 @@ public abstract class TaskController {
         removeCategoryButton.setDisable(true);
     }
 
-
 }

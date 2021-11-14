@@ -8,7 +8,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class BasicApplication extends Application {
 
@@ -63,6 +67,21 @@ public class BasicApplication extends Application {
     public static ArrayList<TodoTask> removeTodoTask(int taskIndex) {
         todoTasks.remove(taskIndex);
         return todoTasks;
+    }
+
+    private static class DateComparator implements Comparator<TodoTask> {
+
+        @Override
+        public int compare(TodoTask t1, TodoTask t2) {
+
+            LocalDateTime dateTime1 = LocalDateTime.of(t1.getTaskDate(), t1.getTaskTime());
+            LocalDateTime dateTime2 = LocalDateTime.of(t2.getTaskDate(), t2.getTaskTime());
+            return dateTime1.compareTo(dateTime2);
+        }
+    }
+
+    public static void sortTodoTasksByDate() {
+        todoTasks.sort(new DateComparator());
     }
 
     public static void main(String[] args) throws Exception {
