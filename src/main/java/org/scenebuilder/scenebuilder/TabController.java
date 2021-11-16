@@ -84,7 +84,7 @@ public class TabController {
         moneyTabLabel = new Label("Money");
         moneyTabLabel.setFont(new Font(18));
         moneyTabLabel.setLayoutX(x);
-        moneyTabLabel.setLayoutY(y + 30);
+        moneyTabLabel.setLayoutY(y + 29);
         moneyTabLabel.setAlignment(Pos.CENTER);
         moneyTabLabel.setPrefWidth(150);
         moneyTabLabel.setPrefHeight(30);
@@ -97,7 +97,7 @@ public class TabController {
         settingsTabLabel = new Label("Settings");
         settingsTabLabel.setFont(new Font(18));
         settingsTabLabel.setLayoutX(x);
-        settingsTabLabel.setLayoutY(y + 60);
+        settingsTabLabel.setLayoutY(y + 58);
         settingsTabLabel.setAlignment(Pos.CENTER);
         settingsTabLabel.setPrefWidth(150);
         settingsTabLabel.setPrefHeight(30);
