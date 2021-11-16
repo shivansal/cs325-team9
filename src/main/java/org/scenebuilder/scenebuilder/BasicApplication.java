@@ -18,18 +18,18 @@ public class BasicApplication extends Application {
 
     private static ArrayList<String> categoryTypes = new ArrayList<>();
     private static ArrayList<TodoTask> todoTasks = new ArrayList<>();
+    private static MoneyObject moneyObject;
 
     @Override
     public void start(Stage stage) throws Exception {
 
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent e) {
-                try {
-                    CSVWriter.writeCategoryCSV(categoryTypes);
-                    CSVWriter.writeTodoTaskCSV(todoTasks);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+        stage.setOnCloseRequest(e -> {
+            try {
+                CSVWriter.writeCategoryCSV(categoryTypes);
+                CSVWriter.writeTodoTaskCSV(todoTasks);
+                //CSVWriter.writeMoneyCSV(moneyObject);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         });
 

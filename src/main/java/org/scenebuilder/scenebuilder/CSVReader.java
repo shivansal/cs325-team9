@@ -9,20 +9,16 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class CSVReader {
 
-    private static final String CATEGORIES_CSV_FILE_PATH = "./categories.csv";
-    private static final String TODOTASKS_CSV_FILE_PATH = "./todotasks.csv";
-
     public static ArrayList<String> readCategoryCSV() throws IOException {
         ArrayList<String> categories = new ArrayList<>();
 
         try (
-                Reader reader = Files.newBufferedReader(Paths.get(CATEGORIES_CSV_FILE_PATH));
+                Reader reader = Files.newBufferedReader(Paths.get(CSVWriter.CATEGORY_CSV_FILE));
                 CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
         ) {
             for (CSVRecord csvRecord : csvParser) {
@@ -41,7 +37,7 @@ public class CSVReader {
         ArrayList<TodoTask> todoTasks = new ArrayList<>();
 
         try (
-                Reader reader = Files.newBufferedReader(Paths.get(TODOTASKS_CSV_FILE_PATH));
+                Reader reader = Files.newBufferedReader(Paths.get(CSVWriter.TODOTASKS_CSV_FILE));
                 CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
                 ) {
 
@@ -90,4 +86,85 @@ public class CSVReader {
 
         return todoTasks;
     }
+
+    public static MoneyObject readMoneyCSV() throws IOException {
+
+        MoneyObject moneyObject = new MoneyObject();
+
+        try (
+                Reader reader = Files.newBufferedReader(Paths.get(CSVWriter.TODOTASKS_CSV_FILE));
+                CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+        ) {
+
+            for (CSVRecord csvRecord : csvParser) {
+
+                int i = 0;
+                // netMoney
+                double netMoney = Double.parseDouble(csvRecord.get(i));
+                moneyObject.setNetMoney(netMoney);
+                i += 1;
+
+                // moneyInSourcesCount
+                int moneyInSourcesCount = Integer.parseInt(csvRecord.get(i));
+                i += 1;
+
+                // moneyInSources
+                int j;
+                for(j = 0; j < (moneyInSourcesCount * 2); ++j) {
+
+                    String description = csvRecord.get(i+j);
+                    j += 1;
+
+                    double value = Double.parseDouble(csvRecord.get(i + j));
+
+                    moneyObject.addMoneyInSource(description, value);
+                }
+
+                i += j;
+
+                // moneyOutSourcesCount
+                int moneyOutSourcesCount = Integer.parseInt(csvRecord.get(i));
+                i += 1;
+
+                // moneyOutSources
+                for(j = 0; j < (moneyOutSourcesCount * 2); ++j) {
+
+                    String description = csvRecord.get(i+j);
+                    j += 1;
+
+                    double value = Double.parseDouble(csvRecord.get(i + j));
+
+                    moneyObject.addMoneyOutSource(description, value);
+                }
+
+                i += j;
+
+                // availableFunds
+                double availableFunds = Double.parseDouble(csvRecord.get(i));
+                i += 1;
+
+                // transactionsCount
+                int transactionsCount = Integer.parseInt(csvRecord.get(i));
+                i += 1;
+
+                // transactions
+                for(j = 0; j < (transactionsCount * 3); ++j) {
+
+                    LocalDate date;
+                    String description = csvRecord.get(i+j);
+                    j += 1;
+
+                    double value = Double.parseDouble(csvRecord.get(i + j));
+
+                    moneyObject.addMoneyOutSource(description, value);
+                }
+
+
+            }
+        }
+
+        return moneyObject;
+    }
+
+
 }
