@@ -1,17 +1,16 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import java.time.LocalDate;
+import org.productivityApp.money.MoneyObject;
+import org.productivityApp.money.MoneyObjectController;
+import org.productivityApp.persistence.CSVReader;
+import org.productivityApp.persistence.CSVWriter;
+import org.productivityApp.todo.TodoController;
+import org.productivityApp.todo.TodoTask;
+
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class BasicApplication extends Application {
@@ -21,21 +20,23 @@ public class BasicApplication extends Application {
     private static MoneyObject moneyObject;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
 
         stage.setOnCloseRequest(e -> {
             try {
                 CSVWriter.writeCategoryCSV(categoryTypes);
                 CSVWriter.writeTodoTaskCSV(todoTasks);
-                //CSVWriter.writeMoneyCSV(moneyObject);
+                CSVWriter.writeMoneyCSV(moneyObject);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
 
         TodoController controller = new TodoController();
+        //MoneyObjectController controller = new MoneyInObjectController();
         controller.initialize(stage);
     }
+
 
     // setters
     public static void setCategoryTypes(ArrayList<String> categories) {
@@ -44,6 +45,8 @@ public class BasicApplication extends Application {
     public static void setTodoTask(int i, TodoTask task) {
         todoTasks.set(i, task);
     }
+    public static void setMoneyObject(MoneyObject moneyObject) { BasicApplication.moneyObject = moneyObject; }
+
 
     // getters
     public static ArrayList<String> getCategoryTypes() {
@@ -52,6 +55,8 @@ public class BasicApplication extends Application {
     public static ArrayList<TodoTask> getTodoTasks() {
         return todoTasks;
     }
+    public static MoneyObject getMoneyObject() { return moneyObject; }
+
 
     // modifiers
     public static ArrayList<TodoTask> addTodoTask(TodoTask task) {
@@ -69,6 +74,8 @@ public class BasicApplication extends Application {
         return todoTasks;
     }
 
+
+    // equality between dates
     private static class DateComparator implements Comparator<TodoTask> {
 
         @Override
@@ -80,8 +87,15 @@ public class BasicApplication extends Application {
         }
     }
 
+    // sort todotasks by date
     public static void sortTodoTasksByDate() {
         todoTasks.sort(new DateComparator());
+    }
+
+    private static MoneyObject getFillerMoneyObject() {
+
+        MoneyObject moneyObject = new MoneyObject();
+        return moneyObject;
     }
 
     public static void main(String[] args) throws Exception {
@@ -89,6 +103,14 @@ public class BasicApplication extends Application {
         // load categories and todoTasks from file
         categoryTypes = CSVReader.readCategoryCSV();
         todoTasks = CSVReader.readTodoTasksCSV();
+
+        try {
+
+            moneyObject = CSVReader.readMoneyCSV();
+        } catch (Exception e) {
+
+            moneyObject = getFillerMoneyObject();
+        }
 
         launch();
     }

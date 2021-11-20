@@ -1,4 +1,4 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.money;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,6 +43,10 @@ public class MoneyObject {
     public void setNetMoney(double netMoney) { this.netMoney = netMoney; }
     public void setMoneyInSources(ArrayList<MoneyInObject> moneyInSources) { this.moneyInSources = moneyInSources; }
     public void setMoneyInSource(int index, MoneyInObject moneyInObject) { this.moneyInSources.set(index, moneyInObject); }
+    public void setMoneyInSource(int index, String description, double value) {
+        MoneyInObject newMoneyInObject = new MoneyInObject(description, value);
+        this.moneyInSources.set(index, newMoneyInObject);
+    }
     public void addMoneyInSource(MoneyInObject moneyInObject) { this.moneyInSources.add(moneyInObject); }
     public void addMoneyInSource(String description, double value) {
         MoneyInObject newObject = new MoneyInObject(description, value);
@@ -50,6 +54,10 @@ public class MoneyObject {
     }
     public void setMoneyOutSources(ArrayList<MoneyOutObject> moneyOutSources) { this.moneyOutSources = moneyOutSources; }
     public void setMoneyOutSource(int index, MoneyOutObject moneyOutObject) { this.moneyOutSources.set(index, moneyOutObject); }
+    public void setMoneyOutSource(int index, String description, double value) {
+        MoneyOutObject newMoneyOutObject = new MoneyOutObject(description, value);
+        this.moneyOutSources.set(index, newMoneyOutObject);
+    }
     public void addMoneyOutSource(MoneyOutObject moneyOutObject) { this.moneyOutSources.add(moneyOutObject); }
     public void addMoneyOutSource(String description, double value) {
         MoneyOutObject newObject = new MoneyOutObject(description, value);
@@ -74,6 +82,15 @@ public class MoneyObject {
     public ArrayList<Transaction> getTransactions() { return this.transactions; }
     public Transaction getTransaction(int index) { return this.transactions.get(index); }
 
+    // modifiers
+    public void removeMoneyInSource(int index) { moneyInSources.remove(index); }
+    public void removeMoneyInSource(MoneyInObject obj) { moneyInSources.remove(obj); }
+    public void removeMoneyOutSource(int index) { moneyOutSources.remove(index); }
+    public void removeMoneyOutSource(MoneyOutObject obj) { moneyOutSources.remove(obj); }
+    public void removeTransaction(int index) { transactions.remove(index); }
+    public void removeTransaction(Transaction transaction) { transactions.remove(transaction); }
+
+
     public class MoneyInObject {
 
         private String description;
@@ -91,6 +108,11 @@ public class MoneyObject {
         // getters
         public String getDescription() { return this.description; }
         public double getValue() { return this.value; }
+
+        @Override
+        public String toString() {
+            return this.description + " : + $" + Double.toString(this.value);
+        }
     }
 
     public class MoneyOutObject {
@@ -110,6 +132,11 @@ public class MoneyObject {
         // getters
         public String getDescription() { return this.description; }
         public double getValue() { return this.value; }
+
+        @Override
+        public String toString() {
+            return this.description + " : - $" + Double.toString(this.value);
+        }
     }
 
     public class Transaction {

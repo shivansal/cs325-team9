@@ -1,4 +1,4 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.todo;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.productivityApp.BasicApplication;
 
 import java.util.ArrayList;
 
@@ -105,7 +106,6 @@ public class CategoryManagerController {
         saveButton.setPrefHeight(buttonHeight);
         saveButton.setOnAction(event -> {
             BasicApplication.setCategoryTypes(categoryTypes);
-            controller.updateCategories();
             stage.close();
         });
 

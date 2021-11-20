@@ -1,29 +1,23 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.todo;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.productivityApp.BasicApplication;
+import org.productivityApp.custom.LimitedTextField;
+import org.productivityApp.screen.ScreenController;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public abstract class TaskController {
-
-    protected AnchorPane anchorPane;
-    private void initAnchorPane() {
-        anchorPane = new AnchorPane();
-        anchorPane.setPrefHeight(800.0);
-        anchorPane.setPrefWidth(520.0);
-    }
+public abstract class TaskController extends ScreenController {
 
     protected Label taskNameLabel;
     protected TextField taskNameTextField;
@@ -324,22 +318,19 @@ public abstract class TaskController {
         selectedCategoryIndex = -1;
     }
 
-    protected Stage stage;
-
     protected TodoTask selectedTask;
     protected int selectedTaskIndex;
     protected int selectedCategoryIndex;
 
     public void initialize(Stage stage) {
 
-        this.stage = stage;
+        super.initialize(stage);
 
         Font font = new Font(24);
 
         double firstColMargin = 10.0;
         double secondColMargin = 140.0;
 
-        initAnchorPane();
         initName(firstColMargin, secondColMargin, 10, font);
         initDatePicker(firstColMargin, secondColMargin, 80, font);
         initTimePicker(firstColMargin, secondColMargin, 150, font);
@@ -350,16 +341,7 @@ public abstract class TaskController {
 
         setInitialValues();
 
-        // set stage parameters
-        Scene newScene = new Scene(anchorPane);
-        stage.setScene(newScene);
-        stage.setResizable(false);
-        stage.show();
-    }
-
-    public void updateCategories() {
-        categoriesComboBox.getItems().clear();
-        setInitialCategories();
+        System.out.println(BasicApplication.getTodoTasks().get(selectedTaskIndex).getTaskCategories().size());
     }
 
     protected void loadInTime(LocalTime localTime) {

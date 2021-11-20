@@ -1,48 +1,66 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.todo;
 
 import javafx.stage.Stage;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
+import org.productivityApp.BasicApplication;
+import org.productivityApp.todo.TaskController;
+import org.productivityApp.todo.TodoController;
+import org.productivityApp.todo.TodoTask;
 
-public class NewTaskController extends TaskController {
+import java.time.LocalTime;
+
+public class ViewTaskController extends TaskController {
 
     @Override
     protected void setInitialNameValue() {
-        int numTasks = BasicApplication.getTodoTasks().size() + 1;
-        taskNameTextField.setText("Task " + numTasks);
+        taskNameTextField.setText(selectedTask.getTaskName());
     }
 
     @Override
     protected void setInitialDateValue() {
-        LocalDate rightNow = LocalDate.now();
-        datePicker.setValue(rightNow);
+        datePicker.setValue(selectedTask.getTaskDate());
     }
 
     @Override
     protected void setInitialTimeValue() {
 
-        LocalTime localTime = LocalTime.now();
+        LocalTime localTime = selectedTask.getTaskTime();
         loadInTime(localTime);
     }
 
     @Override
     protected void setInitialRecurringValue() {
-        recurringComboBox.getSelectionModel().select(0);
+        recurringComboBox.getSelectionModel().select(selectedTask.getTaskRecurringKey());
     }
 
     @Override
     protected void setInitialRecurringDayValues() {
-        // nothing needs to be done for new
+        boolean[] selectedVals = selectedTask.getTaskRecurringDays();
+        sunToggleButton.setSelected(selectedVals[0]);
+        monToggleButton.setSelected(selectedVals[1]);
+        tueToggleButton.setSelected(selectedVals[2]);
+        wedToggleButton.setSelected(selectedVals[3]);
+        thuToggleButton.setSelected(selectedVals[4]);
+        friToggleButton.setSelected(selectedVals[5]);
+        satToggleButton.setSelected(selectedVals[6]);
     }
 
     @Override
     protected void setInitialPriorityValue() {
-        priorityComboBox.getSelectionModel().select(2);
+        priorityComboBox.getSelectionModel().select(selectedTask.getTaskPriority());
+    }
+
+    @Override
+    protected void setInitialCategories() {
+        super.setInitialCategories();
+
+        selectedTask.getTaskCategories().forEach((category) -> {
+            addCategoryNode(category);
+        });
     }
 
     @Override
     protected void setSaveTaskButtonOnAction() {
+
         saveTaskButton.setOnAction(event -> {
 
             // update values
@@ -64,7 +82,7 @@ public class NewTaskController extends TaskController {
             selectedTask.setTaskCategories(nodeListToCategoryList());
 
             // save task
-            BasicApplication.addTodoTask(selectedTask);
+            BasicApplication.setTodoTask(selectedTaskIndex, selectedTask);
 
             // switch screens
             TodoController controller = new TodoController();
@@ -72,33 +90,12 @@ public class NewTaskController extends TaskController {
         });
     }
 
-    protected void initializeSelectedTask() {
+    public void initialize(Stage stage, TodoTask task, int taskIndex) {
 
-        boolean[] toggleButtonVals =  { sunToggleButton.isSelected(),
-                monToggleButton.isSelected(),
-                tueToggleButton.isSelected(),
-                wedToggleButton.isSelected(),
-                thuToggleButton.isSelected(),
-                friToggleButton.isSelected(),
-                satToggleButton.isSelected()};
+        selectedTask = new TodoTask(task);
+        selectedTaskIndex = taskIndex;
 
-        selectedTask = new TodoTask(
-                taskNameTextField.getText(),
-                datePicker.getValue(),
-                getTime(),
-                (String)recurringComboBox.getValue(),
-                toggleButtonVals,
-                (String)priorityComboBox.getValue(),
-                new ArrayList<>()
-        );
-
-        selectedTaskIndex = -1;
-    }
-
-    public void initialize(Stage stage) {
         super.initialize(stage);
 
-        initializeSelectedTask();
     }
-
 }

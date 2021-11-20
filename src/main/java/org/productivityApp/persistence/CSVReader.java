@@ -1,8 +1,10 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.persistence;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.productivityApp.todo.TodoTask;
+import org.productivityApp.money.MoneyObject;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -100,12 +102,23 @@ public class CSVReader {
 
                 int i = 0;
                 // netMoney
-                double netMoney = Double.parseDouble(csvRecord.get(i));
+                double netMoney = 0;
+                try {
+                    netMoney = Double.parseDouble(csvRecord.get(i));
+                } catch (Exception e) {
+                    System.out.println("Invalid Net Money");
+                }
+
                 moneyObject.setNetMoney(netMoney);
                 i += 1;
 
                 // moneyInSourcesCount
-                int moneyInSourcesCount = Integer.parseInt(csvRecord.get(i));
+                int moneyInSourcesCount = 0;
+                try {
+                    moneyInSourcesCount = Integer.parseInt(csvRecord.get(i));
+                } catch (Exception e) {
+                    System.out.println("Invalid MoneyInSource count");
+                }
                 i += 1;
 
                 // moneyInSources
@@ -115,15 +128,24 @@ public class CSVReader {
                     String description = csvRecord.get(i+j);
                     j += 1;
 
-                    double value = Double.parseDouble(csvRecord.get(i + j));
+                    double value = 0;
+                    try {
+                        value = Double.parseDouble(csvRecord.get(i + j));
+                    } catch (Exception e) {
+                        System.out.println("Invalid moneyInSource value");
+                    }
 
                     moneyObject.addMoneyInSource(description, value);
                 }
-
                 i += j;
 
                 // moneyOutSourcesCount
-                int moneyOutSourcesCount = Integer.parseInt(csvRecord.get(i));
+                int moneyOutSourcesCount = 0;
+                try {
+                    moneyOutSourcesCount = Integer.parseInt(csvRecord.get(i));
+                } catch (Exception e) {
+                    System.out.println("Invalid Money Out Source Count");
+                }
                 i += 1;
 
                 // moneyOutSources
@@ -132,19 +154,33 @@ public class CSVReader {
                     String description = csvRecord.get(i+j);
                     j += 1;
 
-                    double value = Double.parseDouble(csvRecord.get(i + j));
+                    double value = 0;
+                    try {
+                        value = Double.parseDouble(csvRecord.get(i + j));
+                    } catch (Exception e) {
+                        System.out.println("Invalid MoneyOutSource value");
+                    }
 
                     moneyObject.addMoneyOutSource(description, value);
                 }
-
                 i += j;
 
                 // availableFunds
-                double availableFunds = Double.parseDouble(csvRecord.get(i));
+                double availableFunds = 0;
+                try {
+                    availableFunds = Double.parseDouble(csvRecord.get(i));
+                } catch (Exception e) {
+                    System.out.println("Invalid availableFunds");
+                }
                 i += 1;
 
                 // transactionsCount
-                int transactionsCount = Integer.parseInt(csvRecord.get(i));
+                int transactionsCount = 0;
+                try {
+                    transactionsCount = Integer.parseInt(csvRecord.get(i));
+                } catch (Exception e) {
+                    System.out.println("Invalid Transactions Count");
+                }
                 i += 1;
 
                 // transactions
@@ -154,7 +190,12 @@ public class CSVReader {
                     String description = csvRecord.get(i+j);
                     j += 1;
 
-                    double value = Double.parseDouble(csvRecord.get(i + j));
+                    double value = 0;
+                    try {
+                        value = Double.parseDouble(csvRecord.get(i + j));
+                    } catch (Exception e) {
+                        System.out.println("Invalid Transaction Value");
+                    }
 
                     moneyObject.addMoneyOutSource(description, value);
                 }

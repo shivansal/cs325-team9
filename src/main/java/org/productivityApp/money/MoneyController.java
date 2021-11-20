@@ -1,4 +1,4 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.money;
 
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
@@ -9,8 +9,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.productivityApp.BasicApplication;
+import org.productivityApp.money.moneyIn.NewMoneyInObjectController;
+import org.productivityApp.money.moneyIn.ViewMoneyInObjectController;
+import org.productivityApp.money.moneyOut.NewMoneyOutObjectController;
+import org.productivityApp.money.moneyOut.ViewMoneyOutObjectController;
+import org.productivityApp.screen.TabController;
 
 public class MoneyController extends TabController {
 
@@ -79,15 +87,43 @@ public class MoneyController extends TabController {
         moneyInAddItemButton.setFont(new Font(15));
         HBox.setMargin(moneyInAddItemButton, new Insets(0, 10, 0, 42));
 
+        moneyInAddItemButton.setOnAction(event -> {
+            NewMoneyInObjectController controller = new NewMoneyInObjectController();
+            controller.initialize(stage);
+        });
+
         moneyInViewItemDetailsButton = new Button();
         moneyInViewItemDetailsButton.setText("View Item Details");
         moneyInViewItemDetailsButton.setFont(new Font(15));
         HBox.setMargin(moneyInViewItemDetailsButton, new Insets(0, 10, 0, 0));
 
+        moneyInViewItemDetailsButton.setOnAction(event -> {
+            ViewMoneyInObjectController controller = new ViewMoneyInObjectController();
+            controller.initialize(stage, moneyInComboBox.getSelectionModel().getSelectedIndex());
+        });
+
         moneyInRemoveItemButton = new Button();
         moneyInRemoveItemButton.setText("Remove Item");
         moneyInRemoveItemButton.setFont(new Font(15));
         HBox.setMargin(moneyInRemoveItemButton, new Insets(0, 0, 0, 0));
+
+        moneyInRemoveItemButton.setOnAction(event -> {
+
+            int index = moneyInComboBox.getSelectionModel().getSelectedIndex();
+            moneyInComboBox.getItems().remove(index);
+            BasicApplication.getMoneyObject().removeMoneyInSource(index);
+
+            if(moneyInComboBox.getItems().size() == 0) {
+                moneyInRemoveItemButton.setDisable(true);
+                moneyInViewItemDetailsButton.setDisable(true);
+                moneyInComboBox.getItems().add("None");
+            }
+
+            // reselect
+            moneyInComboBox.getSelectionModel().select(0);
+
+            updateNetEarnings();
+        });
 
         moneyInButtons.getChildren().addAll(moneyInFillerLabel, moneyInAddItemButton, moneyInViewItemDetailsButton, moneyInRemoveItemButton);
         screenVBox.getChildren().add(moneyInButtons);
@@ -132,15 +168,42 @@ public class MoneyController extends TabController {
         moneyOutAddItemButton.setFont(new Font(15));
         HBox.setMargin(moneyOutAddItemButton, HBox.getMargin(moneyInAddItemButton));
 
+        moneyOutAddItemButton.setOnAction(event -> {
+            NewMoneyOutObjectController controller = new NewMoneyOutObjectController();
+            controller.initialize(stage);
+        });
+
         moneyOutViewItemDetailsButton = new Button();
         moneyOutViewItemDetailsButton.setText("View Item Details");
         moneyOutViewItemDetailsButton.setFont(new Font(15));
         HBox.setMargin(moneyOutViewItemDetailsButton, HBox.getMargin(moneyInViewItemDetailsButton));
 
+        moneyOutViewItemDetailsButton.setOnAction(event -> {
+            ViewMoneyOutObjectController controller = new ViewMoneyOutObjectController();
+            controller.initialize(stage, moneyOutComboBox.getSelectionModel().getSelectedIndex());
+        });
+
         moneyOutRemoveItemButton = new Button();
         moneyOutRemoveItemButton.setText("Remove Item");
         moneyOutRemoveItemButton.setFont(new Font(15));
         HBox.setMargin(moneyOutRemoveItemButton, HBox.getMargin(moneyInRemoveItemButton));
+
+        moneyOutRemoveItemButton.setOnAction(event -> {
+            int index = moneyOutComboBox.getSelectionModel().getSelectedIndex();
+            moneyOutComboBox.getItems().remove(index);
+            BasicApplication.getMoneyObject().removeMoneyOutSource(index);
+
+            if(moneyOutComboBox.getItems().size() == 0) {
+                moneyOutRemoveItemButton.setDisable(true);
+                moneyOutViewItemDetailsButton.setDisable(true);
+                moneyOutComboBox.getItems().add("None");
+            }
+
+            // reselect
+            moneyOutComboBox.getSelectionModel().select(0);
+
+            updateNetEarnings();
+        });
 
         moneyOutButtons.getChildren().addAll(moneyOutFillerLabel, moneyOutAddItemButton, moneyOutViewItemDetailsButton, moneyOutRemoveItemButton);
         screenVBox.getChildren().add(moneyOutButtons);
@@ -225,6 +288,54 @@ public class MoneyController extends TabController {
         screenVBox.getChildren().add(transactionButtonsHBox);
     }
 
+    private void initValues() {
+
+        MoneyObject moneyObject = BasicApplication.getMoneyObject();
+
+        // Net Money
+        updateNetEarnings();
+
+        // moneyInSources
+        moneyObject.getMoneyInSources().forEach(source -> {
+            moneyInComboBox.getItems().add(source.toString());
+        });
+        if (moneyInComboBox.getItems().size() == 0) {
+            moneyInComboBox.getItems().add("None");
+        }
+        moneyInComboBox.getSelectionModel().select(0);
+
+        // moneyOut Sources
+        moneyObject.getMoneyOutSources().forEach(source -> {
+            moneyOutComboBox.getItems().add(source.toString());
+        });
+        if (moneyOutComboBox.getItems().size() == 0) {
+            moneyOutComboBox.getItems().add("None");
+        }
+        moneyOutComboBox.getSelectionModel().select(0);
+
+        // available funds
+        availableFundsValueLabel.setText(String.format("$ %.02f", moneyObject.getAvailableFunds()));
+
+        // transactions
+        moneyObject.getTransactions().forEach(transaction -> {
+            transactionsVBox.getChildren().add(getTransactionNode(transaction));
+        });
+
+        // disable relevant buttons
+        if(moneyInComboBox.getItems().get(0).equals("None")) {
+            moneyInViewItemDetailsButton.setDisable(true);
+            moneyInRemoveItemButton.setDisable(true);
+        }
+        if(moneyOutComboBox.getItems().get(0).equals("None")) {
+            moneyOutViewItemDetailsButton.setDisable(true);
+            moneyOutRemoveItemButton.setDisable(true);
+        }
+
+        // always initially disable until selection is made
+        viewTransactionDetailsButton.setDisable(true);
+        removeTransactionButton.setDisable(true);
+    }
+
     public void initialize(Stage stage) {
 
         super.initialize(stage, "Money");
@@ -238,5 +349,61 @@ public class MoneyController extends TabController {
         initAvailableFunds();
         initTransactions();
         initTransactionButtons();
+
+        initValues();
+    }
+
+    public HBox getTransactionNode(MoneyObject.Transaction transaction) {
+
+        HBox hbox = new HBox();
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        VBox.setMargin(hbox, new Insets(5, 5, 5, 5));
+
+        // bullet point
+        Circle circle = new Circle();
+        circle.setFill(Color.BLACK);
+        circle.setRadius(2);
+
+        // date
+        Label dateLabel = new Label();
+        dateLabel.setFont(new Font(24));
+        dateLabel.setText(transaction.getDate().toString());
+        dateLabel.setStyle("-fx-border-color: black");
+
+        // description
+        Label descriptionLabel = new Label();
+        descriptionLabel.setFont(dateLabel.getFont());
+        descriptionLabel.setText(transaction.getDescription());
+        descriptionLabel.setStyle("-fx-border-color: black");
+
+        // value
+        Label valueLabel = new Label();
+        valueLabel.setFont(dateLabel.getFont());
+
+        if(transaction.getValue() >= 0) {
+            valueLabel.setText("+ " + transaction.getValue());
+        } else {
+            valueLabel.setText("- " + transaction.getValue() * (-1));
+        }
+
+        hbox.getChildren().addAll(circle, dateLabel, descriptionLabel, valueLabel);
+        return hbox;
+    }
+
+    public void updateNetEarnings() {
+
+        // add MoneyInSources
+        double earningsIn = BasicApplication.getMoneyObject().getMoneyInSources().stream().mapToDouble(MoneyObject.MoneyInObject::getValue).sum();
+
+        // subtract MoneyOutSources
+        double earningsOut = BasicApplication.getMoneyObject().getMoneyOutSources().stream().mapToDouble(MoneyObject.MoneyOutObject::getValue).sum();
+
+        // set label
+        double net = earningsIn - earningsOut;
+        String sign = net >= 0 ? " + " : " - ";
+        netEarningsLabel.setText(sign + String.format("$ %.02f", Math.abs(net)));
+
+        // set value in object
+        BasicApplication.getMoneyObject().setNetMoney(net);
     }
 }

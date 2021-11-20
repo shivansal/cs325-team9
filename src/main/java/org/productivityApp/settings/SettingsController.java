@@ -1,6 +1,7 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.settings;
 
 import javafx.stage.Stage;
+import org.productivityApp.screen.TabController;
 
 public class SettingsController extends TabController {
 

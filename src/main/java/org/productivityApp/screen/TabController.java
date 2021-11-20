@@ -1,27 +1,19 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.screen;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.productivityApp.todo.TodoController;
+import org.productivityApp.money.MoneyController;
+import org.productivityApp.settings.SettingsController;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class TabController {
-
-    protected AnchorPane anchorPane;
-    private void initAnchorPane() {
-        anchorPane = new AnchorPane();
-        anchorPane.setPrefHeight(800.0);
-        anchorPane.setPrefWidth(520.0);
-    }
+public class TabController extends ScreenController {
 
     protected Label currentDateLabel;
     protected Label currentTimeLabel;
@@ -126,20 +118,11 @@ public class TabController {
         anchorPane.getChildren().addAll(todoTabLabel, moneyTabLabel, settingsTabLabel);
     }
 
-    protected Stage stage;
-
     public void initialize(Stage stage, String menu) {
 
-        this.stage = stage;
+        super.initialize(stage);
 
-        initAnchorPane();
         initCurrentDay(10, 10);
         initTabs(360, 10, menu);
-
-        // set stage parameters
-        Scene newScene = new Scene(anchorPane);
-        stage.setScene(newScene);
-        stage.setResizable(false);
-        stage.show();
     }
 }

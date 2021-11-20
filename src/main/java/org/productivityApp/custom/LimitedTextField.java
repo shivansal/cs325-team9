@@ -1,4 +1,4 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.custom;
 
 import java.util.Objects;
 import javafx.beans.property.IntegerProperty;

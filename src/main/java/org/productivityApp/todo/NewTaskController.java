@@ -1,61 +1,50 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.todo;
 
 import javafx.stage.Stage;
-import java.time.LocalTime;
+import org.productivityApp.BasicApplication;
 
-public class ViewTaskController extends TaskController {
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+
+public class NewTaskController extends TaskController {
 
     @Override
     protected void setInitialNameValue() {
-        taskNameTextField.setText(selectedTask.getTaskName());
+        int numTasks = BasicApplication.getTodoTasks().size() + 1;
+        taskNameTextField.setText("Task " + numTasks);
     }
 
     @Override
     protected void setInitialDateValue() {
-        datePicker.setValue(selectedTask.getTaskDate());
+        LocalDate rightNow = LocalDate.now();
+        datePicker.setValue(rightNow);
     }
 
     @Override
     protected void setInitialTimeValue() {
 
-        LocalTime localTime = selectedTask.getTaskTime();
+        LocalTime localTime = LocalTime.now();
         loadInTime(localTime);
     }
 
     @Override
     protected void setInitialRecurringValue() {
-        recurringComboBox.getSelectionModel().select(selectedTask.getTaskRecurringKey());
+        recurringComboBox.getSelectionModel().select(0);
     }
 
     @Override
     protected void setInitialRecurringDayValues() {
-        boolean[] selectedVals = selectedTask.getTaskRecurringDays();
-        sunToggleButton.setSelected(selectedVals[0]);
-        monToggleButton.setSelected(selectedVals[1]);
-        tueToggleButton.setSelected(selectedVals[2]);
-        wedToggleButton.setSelected(selectedVals[3]);
-        thuToggleButton.setSelected(selectedVals[4]);
-        friToggleButton.setSelected(selectedVals[5]);
-        satToggleButton.setSelected(selectedVals[6]);
+        // nothing needs to be done for new
     }
 
     @Override
     protected void setInitialPriorityValue() {
-        priorityComboBox.getSelectionModel().select(selectedTask.getTaskPriority());
-    }
-
-    @Override
-    protected void setInitialCategories() {
-        super.setInitialCategories();
-
-        selectedTask.getTaskCategories().forEach((category) -> {
-            addCategoryNode(category);
-        });
+        priorityComboBox.getSelectionModel().select(2);
     }
 
     @Override
     protected void setSaveTaskButtonOnAction() {
-
         saveTaskButton.setOnAction(event -> {
 
             // update values
@@ -77,7 +66,7 @@ public class ViewTaskController extends TaskController {
             selectedTask.setTaskCategories(nodeListToCategoryList());
 
             // save task
-            BasicApplication.setTodoTask(selectedTaskIndex, selectedTask);
+            BasicApplication.addTodoTask(selectedTask);
 
             // switch screens
             TodoController controller = new TodoController();
@@ -85,12 +74,34 @@ public class ViewTaskController extends TaskController {
         });
     }
 
-    public void initialize(Stage stage, TodoTask task, int taskIndex) {
+    protected void initializeSelectedTask() {
 
-        selectedTask = new TodoTask(task);
-        selectedTaskIndex = taskIndex;
+        boolean[] toggleButtonVals =  { sunToggleButton.isSelected(),
+                monToggleButton.isSelected(),
+                tueToggleButton.isSelected(),
+                wedToggleButton.isSelected(),
+                thuToggleButton.isSelected(),
+                friToggleButton.isSelected(),
+                satToggleButton.isSelected()};
+
+        selectedTask = new TodoTask(
+                taskNameTextField.getText(),
+                datePicker.getValue(),
+                getTime(),
+                (String)recurringComboBox.getValue(),
+                toggleButtonVals,
+                (String)priorityComboBox.getValue(),
+                new ArrayList<>()
+        );
+
+        selectedTaskIndex = -1;
+    }
+
+    public void initialize(Stage stage) {
 
         super.initialize(stage);
 
+        initializeSelectedTask();
     }
+
 }

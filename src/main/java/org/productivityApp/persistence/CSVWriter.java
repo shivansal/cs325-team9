@@ -1,4 +1,4 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.persistence;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.productivityApp.todo.TodoTask;
+import org.productivityApp.money.MoneyObject;
 
 public class CSVWriter {
 
@@ -119,13 +121,13 @@ public class CSVWriter {
 
             final ArrayList<String> tempRow = new ArrayList<>();
 
-            // netMoney
+            // netMoney (1)
             tempRow.add(Double.toString(moneyObject.getNetMoney()));
 
-            // moneyInSourcesCount
+            // moneyInSourcesCount (2)
             tempRow.add(Integer.toString(moneyObject.getMoneyInSources().size()));
 
-            // moneyInSources
+            // moneyInSources (3)
             moneyObject.getMoneyInSources().forEach((moneyInSource) -> {
 
                 // write description
@@ -135,10 +137,10 @@ public class CSVWriter {
                 tempRow.add(Double.toString(moneyInSource.getValue()));
             });
 
-            // moneyOutSourcesCount
+            // moneyOutSourcesCount (4)
             tempRow.add(Integer.toString(moneyObject.getMoneyOutSources().size()));
 
-            // moneyOutSources
+            // moneyOutSources (5)
             moneyObject.getMoneyOutSources().forEach((moneyOutSource) -> {
 
                 // write description
@@ -148,13 +150,13 @@ public class CSVWriter {
                 tempRow.add(Double.toString(moneyOutSource.getValue()));
             });
 
-            // availableFunds
+            // availableFunds (6)
             tempRow.add(Double.toString(moneyObject.getAvailableFunds()));
 
-            // transactionsCount
+            // transactionsCount (7)
             tempRow.add(Integer.toString(moneyObject.getTransactions().size()));
 
-            // transactions
+            // transactions (8)
             moneyObject.getTransactions().forEach((transaction) -> {
 
                 // write date

@@ -1,4 +1,4 @@
-package org.scenebuilder.scenebuilder;
+package org.productivityApp.todo;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -13,6 +13,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.productivityApp.BasicApplication;
+import org.productivityApp.screen.TabController;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
