@@ -66,6 +66,10 @@ public class MoneyObject {
     public void setAvailableFunds(double availableFunds) { this.availableFunds = availableFunds; }
     public void setTransactions(ArrayList<Transaction> transactions) { this.transactions = transactions; }
     public void setTransaction(int index, Transaction transaction) { this.transactions.set(index, transaction); }
+    public void setTransaction(int index, LocalDate date, String description, double value) {
+        Transaction newTransaction = new Transaction(date, description, value);
+        transactions.set(index, newTransaction);
+    }
     public void addTransaction(Transaction transaction) { this.transactions.add(transaction); }
     public void addTransaction(LocalDate date, String description, double value) {
         Transaction newTransaction = new Transaction(date, description, value);

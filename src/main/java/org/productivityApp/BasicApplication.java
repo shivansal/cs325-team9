@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.productivityApp.money.MoneyObject;
 import org.productivityApp.money.MoneyObjectController;
+import org.productivityApp.money.transactions.TransactionController;
 import org.productivityApp.persistence.CSVReader;
 import org.productivityApp.persistence.CSVWriter;
 import org.productivityApp.todo.TodoController;
@@ -33,7 +34,6 @@ public class BasicApplication extends Application {
         });
 
         TodoController controller = new TodoController();
-        //MoneyObjectController controller = new MoneyInObjectController();
         controller.initialize(stage);
     }
 

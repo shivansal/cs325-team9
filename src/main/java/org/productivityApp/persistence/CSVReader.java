@@ -94,19 +94,21 @@ public class CSVReader {
         MoneyObject moneyObject = new MoneyObject();
 
         try (
-                Reader reader = Files.newBufferedReader(Paths.get(CSVWriter.TODOTASKS_CSV_FILE));
+                Reader reader = Files.newBufferedReader(Paths.get(CSVWriter.MONEY_CSV_FILE));
                 CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
         ) {
 
             for (CSVRecord csvRecord : csvParser) {
 
                 int i = 0;
+
                 // netMoney
                 double netMoney = 0;
                 try {
                     netMoney = Double.parseDouble(csvRecord.get(i));
                 } catch (Exception e) {
                     System.out.println("Invalid Net Money");
+                    System.out.println(csvRecord.get(i));
                 }
 
                 moneyObject.setNetMoney(netMoney);
@@ -118,6 +120,7 @@ public class CSVReader {
                     moneyInSourcesCount = Integer.parseInt(csvRecord.get(i));
                 } catch (Exception e) {
                     System.out.println("Invalid MoneyInSource count");
+                    System.out.println(csvRecord.get(i));
                 }
                 i += 1;
 
@@ -133,6 +136,7 @@ public class CSVReader {
                         value = Double.parseDouble(csvRecord.get(i + j));
                     } catch (Exception e) {
                         System.out.println("Invalid moneyInSource value");
+                        System.out.println(csvRecord.get(i+j));
                     }
 
                     moneyObject.addMoneyInSource(description, value);
@@ -145,6 +149,7 @@ public class CSVReader {
                     moneyOutSourcesCount = Integer.parseInt(csvRecord.get(i));
                 } catch (Exception e) {
                     System.out.println("Invalid Money Out Source Count");
+                    System.out.println(csvRecord.get(i+j));
                 }
                 i += 1;
 
@@ -159,6 +164,7 @@ public class CSVReader {
                         value = Double.parseDouble(csvRecord.get(i + j));
                     } catch (Exception e) {
                         System.out.println("Invalid MoneyOutSource value");
+                        System.out.println(csvRecord.get(i+j));
                     }
 
                     moneyObject.addMoneyOutSource(description, value);
@@ -171,7 +177,9 @@ public class CSVReader {
                     availableFunds = Double.parseDouble(csvRecord.get(i));
                 } catch (Exception e) {
                     System.out.println("Invalid availableFunds");
+                    System.out.println(csvRecord.get(i));
                 }
+                moneyObject.setAvailableFunds(availableFunds);
                 i += 1;
 
                 // transactionsCount
@@ -180,13 +188,22 @@ public class CSVReader {
                     transactionsCount = Integer.parseInt(csvRecord.get(i));
                 } catch (Exception e) {
                     System.out.println("Invalid Transactions Count");
+                    System.out.println(csvRecord.get(i));
                 }
                 i += 1;
 
                 // transactions
                 for(j = 0; j < (transactionsCount * 3); ++j) {
 
-                    LocalDate date;
+                    int year = Integer.parseInt(csvRecord.get(i + j));
+                    j += 1;
+                    int month = Integer.parseInt(csvRecord.get(i + j));
+                    j += 1;
+                    int day = Integer.parseInt(csvRecord.get(i + j));
+                    j += 1;
+
+                    LocalDate date = LocalDate.of(year, month, day);
+
                     String description = csvRecord.get(i+j);
                     j += 1;
 
@@ -195,9 +212,10 @@ public class CSVReader {
                         value = Double.parseDouble(csvRecord.get(i + j));
                     } catch (Exception e) {
                         System.out.println("Invalid Transaction Value");
+                        System.out.println(csvRecord.get(i+j));
                     }
 
-                    moneyObject.addMoneyOutSource(description, value);
+                    moneyObject.addTransaction(date, description, value);
                 }
 
 
