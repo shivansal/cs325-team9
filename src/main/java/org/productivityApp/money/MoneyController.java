@@ -23,6 +23,8 @@ import org.productivityApp.money.transactions.NewTransactionController;
 import org.productivityApp.money.transactions.ViewTransactionController;
 import org.productivityApp.screen.TabController;
 
+import java.text.DecimalFormat;
+
 public class MoneyController extends TabController {
 
     VBox screenVBox;
@@ -301,6 +303,25 @@ public class MoneyController extends TabController {
         removeTransactionButton.setText("Remove Transaction");
         HBox.setMargin(removeTransactionButton, new Insets(0, 0, 0, 0));
 
+        removeTransactionButton.setOnAction(event -> {
+
+            // remove transaction
+            BasicApplication.getMoneyObject().removeTransaction(selectedTransactionIndex);
+
+            // remove transaction node
+            transactionsVBox.getChildren().remove(selectedTransactionIndex);
+
+            // disable buttons
+            viewTransactionDetailsButton.setDisable(true);
+            removeTransactionButton.setDisable(true);
+
+            // reset selected index
+            selectedTransactionIndex = -1;
+
+            // update available funds
+            updateAvailableFunds();
+        });
+
         transactionButtonsHBox.getChildren().addAll(newTransactionButton, viewTransactionDetailsButton, removeTransactionButton);
         screenVBox.getChildren().add(transactionButtonsHBox);
     }
@@ -331,7 +352,6 @@ public class MoneyController extends TabController {
         moneyOutComboBox.getSelectionModel().select(0);
 
         // available funds
-        availableFundsValueLabel.setText(String.format("$ %.02f", moneyObject.getAvailableFunds()));
         updateAvailableFunds();
 
         // transactions
@@ -377,8 +397,9 @@ public class MoneyController extends TabController {
 
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER_LEFT);
-        hbox.prefWidthProperty().bind(Bindings.subtract(transactionsVBox.widthProperty(), 20));
-        VBox.setMargin(hbox, new Insets(2, 0, 2, 0));
+        hbox.prefWidthProperty().bind(Bindings.subtract(transactionsVBox.widthProperty(), 10));
+        hbox.setPadding(new Insets(2, 5, 2, 5));
+        VBox.setMargin(hbox, new Insets(1, 3, 1, 3));
 
         // bullet point
         Circle circle = new Circle();
@@ -399,7 +420,7 @@ public class MoneyController extends TabController {
         // description
         Label descriptionLabel = new Label();
         descriptionLabel.setAlignment(Pos.CENTER);
-        descriptionLabel.prefWidthProperty().bind(Bindings.multiply(hbox.widthProperty(), 0.5));
+        descriptionLabel.prefWidthProperty().bind(Bindings.multiply(hbox.widthProperty(), 0.40));
         descriptionLabel.setFont(dateLabel.getFont());
         descriptionLabel.setText(transaction.getDescription());
         descriptionLabel.setStyle("-fx-border-color: black");
@@ -410,16 +431,30 @@ public class MoneyController extends TabController {
         // value
         Label valueLabel = new Label();
         valueLabel.setAlignment(Pos.CENTER);
-        valueLabel.prefWidthProperty().bind(Bindings.multiply(hbox.widthProperty(), 0.2));
+        valueLabel.prefWidthProperty().bind(Bindings.multiply(hbox.widthProperty(), 0.3));
         valueLabel.setFont(dateLabel.getFont());
         valueLabel.setPadding(descriptionLabel.getPadding());
         valueLabel.setStyle("-fx-border-color: black");
 
-        if(transaction.getValue() >= 0) {
-            valueLabel.setText("+ " + transaction.getValue());
-        } else {
-            valueLabel.setText("- " + transaction.getValue() * (-1));
-        }
+        String sign = transaction.getValue() >= 0 ? "+ " : "- ";
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        valueLabel.setText(sign + "$" + df.format(Math.abs(transaction.getValue())));
+
+        hbox.setOnMouseClicked(event -> {
+
+            // deselect all tasks
+            transactionsVBox.getChildren().forEach((n) -> n.setStyle(null));
+
+            // select clicked on task
+            hbox.setStyle("-fx-border-color: blue;");
+
+            // enable relevant buttons
+            removeTransactionButton.setDisable(false);
+            viewTransactionDetailsButton.setDisable(false);
+
+            // update selected task
+            selectedTransactionIndex = transactionsVBox.getChildren().indexOf(hbox);
+        });
 
         hbox.getChildren().addAll(circle, dateLabel, descriptionLabel, valueLabel);
         return hbox;
@@ -436,15 +471,18 @@ public class MoneyController extends TabController {
         // set label
         double net = earningsIn - earningsOut;
         String sign = net >= 0 ? " + " : " - ";
-        netEarningsLabel.setText(sign + String.format("$ %.02f", Math.abs(net)));
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        netEarningsLabel.setText(sign + "$" + df.format(Math.abs(net)));
 
         // set value in object
         BasicApplication.getMoneyObject().setNetMoney(net);
     }
     public void updateAvailableFunds() {
+
         double net = BasicApplication.getMoneyObject().getTransactions().stream().mapToDouble(transaction -> transaction.getValue()).sum();
         BasicApplication.getMoneyObject().setAvailableFunds(net);
         String sign = net >= 0 ? "+ " : "- ";
-        availableFundsValueLabel.setText(sign + "$" + String.format("%.02f", Math.abs(net)));
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        availableFundsValueLabel.setText(sign + "$" + df.format(Math.abs(net)));
     }
 }

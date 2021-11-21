@@ -74,9 +74,9 @@ public class ViewTransactionController extends TransactionController {
 
     public void initialize(Stage stage, int selectedTransactionIndex) {
 
-        super.initialize(stage);
-
         this.selectedTransactionIndex = selectedTransactionIndex;
         this.selectedTransaction = BasicApplication.getMoneyObject().getTransaction(selectedTransactionIndex);
+
+        super.initialize(stage);
     }
 }

@@ -1,5 +1,6 @@
 package org.productivityApp.money;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -115,7 +116,9 @@ public class MoneyObject {
 
         @Override
         public String toString() {
-            return this.description + " : + $" + Double.toString(this.value);
+
+            DecimalFormat df = new DecimalFormat("#,###.00");
+            return this.description + "    :    + $" + df.format(this.value);
         }
     }
 
@@ -139,7 +142,9 @@ public class MoneyObject {
 
         @Override
         public String toString() {
-            return this.description + " : - $" + Double.toString(this.value);
+
+            DecimalFormat df = new DecimalFormat("#,###.00");
+            return this.description + "    :    - $" + df.format(this.value);
         }
     }
 
