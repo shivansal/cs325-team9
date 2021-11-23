@@ -1,5 +1,6 @@
 package org.productivityApp.todo;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +21,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TodoController extends TabController {
 
@@ -54,6 +57,9 @@ public class TodoController extends TabController {
 
         categoryComboBox.setOnAction(event -> {
 
+            // reset selected task
+            selectedTaskIndex = -1;
+
             // clear tasks
             taskVBox.getChildren().clear();
             filteredTasks.clear();
@@ -79,16 +85,13 @@ public class TodoController extends TabController {
         taskScrollPane.setLayoutY(y);
         taskScrollPane.setPrefWidth(500);
         taskScrollPane.setPrefHeight(540);
+        taskScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         taskScrollPane.setStyle("-fx-background-color: transparent");
 
         taskVBox = new VBox();
         taskVBox.setPrefWidth(490);
         taskVBox.setPrefHeight(490);
         taskScrollPane.setContent(taskVBox);
-
-        BasicApplication.getTodoTasks().forEach((task) -> {
-           addTaskNode(task);
-        });
 
         anchorPane.getChildren().addAll(taskScrollPane);
     }
@@ -149,7 +152,7 @@ public class TodoController extends TabController {
         anchorPane.getChildren().addAll(newTaskButton, removeTaskButton, viewTaskDetailsButton);
     }
 
-    private int selectedTaskIndex;
+    private int selectedTaskIndex = -1;
     private ArrayList<TodoTask> filteredTasks;
 
     public void initialize(Stage stage) {
@@ -158,11 +161,46 @@ public class TodoController extends TabController {
 
         BasicApplication.sortTodoTasksByDate();
 
+        // start timer
+
+        // todo rewrite this screen without using hard values
         initHeading(10, 150);
         initTodoList(10, 200);
         initButtons(10, 750);
+
+        BasicApplication.timer = new Timer();
+        BasicApplication.timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateTaskNodes();
+                    }
+                });
+            }
+        }, 0, 1000);
     }
 
+    private void updateTaskNodes() {
+
+        taskVBox.getChildren().clear();
+        filteredTasks.clear();
+
+        String categoryFilter = (String)categoryComboBox.getValue();
+
+        BasicApplication.getTodoTasks().forEach( (n) -> {
+            if(n.getTaskCategories().indexOf(categoryFilter) != -1 || categoryFilter.equals("None")) {
+                addTaskNode(n);
+                filteredTasks.add(n);
+            }
+        });
+
+        // redraw selected task
+        if(selectedTaskIndex != -1) {
+            taskVBox.getChildren().get(selectedTaskIndex).setStyle("-fx-border-color: blue;");
+        }
+    }
     private void addTaskNode(TodoTask task) {
 
         // container for task (selection box)

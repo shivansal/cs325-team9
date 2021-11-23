@@ -272,8 +272,7 @@ public abstract class TaskController extends ScreenController {
         anchorPane.getChildren().addAll(categoriesLabel, categoriesComboBox, assignCategoryButton, categoriesScrollPane, removeCategoryButton, manageCategoriesButton);
     }
     protected void setInitialCategories() {
-        categoriesComboBox.setItems(FXCollections.observableArrayList(BasicApplication.getCategoryTypes()));
-        categoriesComboBox.getSelectionModel().select(BasicApplication.getCategoryTypes().indexOf("None"));
+        updateCategories();
     }
 
     protected Button backButton;
@@ -342,6 +341,11 @@ public abstract class TaskController extends ScreenController {
         setInitialValues();
 
         System.out.println(BasicApplication.getTodoTasks().get(selectedTaskIndex).getTaskCategories().size());
+    }
+
+    protected void updateCategories() {
+        categoriesComboBox.setItems(FXCollections.observableArrayList(BasicApplication.getCategoryTypes()));
+        categoriesComboBox.getSelectionModel().select(BasicApplication.getCategoryTypes().indexOf("None"));
     }
 
     protected void loadInTime(LocalTime localTime) {

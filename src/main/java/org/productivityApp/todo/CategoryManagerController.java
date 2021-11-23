@@ -106,6 +106,7 @@ public class CategoryManagerController {
         saveButton.setPrefHeight(buttonHeight);
         saveButton.setOnAction(event -> {
             BasicApplication.setCategoryTypes(categoryTypes);
+            controller.updateCategories();
             stage.close();
         });
 

@@ -3,6 +3,7 @@ package org.productivityApp.persistence;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.productivityApp.settings.SettingsObject;
 import org.productivityApp.todo.TodoTask;
 import org.productivityApp.money.MoneyObject;
 
@@ -223,6 +224,11 @@ public class CSVReader {
         }
 
         return moneyObject;
+    }
+
+    public static SettingsObject readSettingsCSV() {
+
+        return new SettingsObject();
     }
 
 

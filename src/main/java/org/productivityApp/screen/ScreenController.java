@@ -3,6 +3,7 @@ package org.productivityApp.screen;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.productivityApp.BasicApplication;
 
 public class ScreenController {
 
@@ -16,6 +17,9 @@ public class ScreenController {
     protected Stage stage;
 
     public void initialize(Stage stage) {
+
+        // cancel all timer tasks
+        BasicApplication.timer.cancel();
 
         this.stage = stage;
 

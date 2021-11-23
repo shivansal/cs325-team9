@@ -3,22 +3,26 @@ package org.productivityApp;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.productivityApp.money.MoneyObject;
-import org.productivityApp.money.MoneyObjectController;
-import org.productivityApp.money.transactions.TransactionController;
 import org.productivityApp.persistence.CSVReader;
 import org.productivityApp.persistence.CSVWriter;
+import org.productivityApp.settings.SettingsObject;
 import org.productivityApp.todo.TodoController;
 import org.productivityApp.todo.TodoTask;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Timer;
 
 public class BasicApplication extends Application {
 
     private static ArrayList<String> categoryTypes = new ArrayList<>();
     private static ArrayList<TodoTask> todoTasks = new ArrayList<>();
     private static MoneyObject moneyObject;
+    private static SettingsObject settingsObject;
+
+    public static Timer timer = new Timer();
 
     @Override
     public void start(Stage stage) {
@@ -31,7 +35,12 @@ public class BasicApplication extends Application {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
+            System.exit(0);
         });
+
+        // remove any tasks from the notification queue that expired while the application was closed
+        settingsObject.setLastNotificationCheck(LocalDateTime.now());
 
         TodoController controller = new TodoController();
         controller.initialize(stage);
@@ -46,7 +55,7 @@ public class BasicApplication extends Application {
         todoTasks.set(i, task);
     }
     public static void setMoneyObject(MoneyObject moneyObject) { BasicApplication.moneyObject = moneyObject; }
-
+    public static void setSettingsObject(SettingsObject settingsObject) { BasicApplication.settingsObject = settingsObject; }
 
     // getters
     public static ArrayList<String> getCategoryTypes() {
@@ -56,7 +65,7 @@ public class BasicApplication extends Application {
         return todoTasks;
     }
     public static MoneyObject getMoneyObject() { return moneyObject; }
-
+    public static SettingsObject getSettingsObject() { return settingsObject; }
 
     // modifiers
     public static ArrayList<TodoTask> addTodoTask(TodoTask task) {
@@ -75,8 +84,8 @@ public class BasicApplication extends Application {
     }
 
 
-    // equality between dates
-    private static class DateComparator implements Comparator<TodoTask> {
+    // equality between dates + times
+    private static class DateTimeComparator implements Comparator<TodoTask> {
 
         @Override
         public int compare(TodoTask t1, TodoTask t2) {
@@ -85,17 +94,28 @@ public class BasicApplication extends Application {
             LocalDateTime dateTime2 = LocalDateTime.of(t2.getTaskDate(), t2.getTaskTime());
             return dateTime1.compareTo(dateTime2);
         }
+
+
     }
 
-    // sort todotasks by date
+    // equality between dates
+    private static class DateComparator implements Comparator<MoneyObject.Transaction> {
+
+        @Override
+        public int compare(MoneyObject.Transaction t1, MoneyObject.Transaction t2) {
+
+            LocalDate date1 = t1.getDate();
+            LocalDate date2 = t2.getDate();
+            return date2.compareTo(date1);
+        }
+    }
+
+    // sort tasks by date
     public static void sortTodoTasksByDate() {
-        todoTasks.sort(new DateComparator());
+        todoTasks.sort(new DateTimeComparator());
     }
-
-    private static MoneyObject getFillerMoneyObject() {
-
-        MoneyObject moneyObject = new MoneyObject();
-        return moneyObject;
+    public static void sortTransactionsByDate() {
+        moneyObject.getTransactions().sort(new DateComparator());
     }
 
     public static void main(String[] args) throws Exception {
@@ -103,17 +123,10 @@ public class BasicApplication extends Application {
         // load categories and todoTasks from file
         categoryTypes = CSVReader.readCategoryCSV();
         todoTasks = CSVReader.readTodoTasksCSV();
-
-        try {
-
-            moneyObject = CSVReader.readMoneyCSV();
-        } catch (Exception e) {
-
-            moneyObject = getFillerMoneyObject();
-        }
+        moneyObject = CSVReader.readMoneyCSV();
+        settingsObject = CSVReader.readSettingsCSV();
 
         launch();
     }
-
 
 }

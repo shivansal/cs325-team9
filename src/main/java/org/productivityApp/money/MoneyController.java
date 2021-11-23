@@ -355,9 +355,7 @@ public class MoneyController extends TabController {
         updateAvailableFunds();
 
         // transactions
-        moneyObject.getTransactions().forEach(transaction -> {
-            transactionsVBox.getChildren().add(getTransactionNode(transaction));
-        });
+        updateTransactions();
 
         // disable relevant buttons
         if(moneyInComboBox.getItems().get(0).equals("None")) {
@@ -393,7 +391,7 @@ public class MoneyController extends TabController {
         initValues();
     }
 
-    public HBox getTransactionNode(MoneyObject.Transaction transaction) {
+    private HBox getTransactionNode(MoneyObject.Transaction transaction) {
 
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER_LEFT);
@@ -459,8 +457,17 @@ public class MoneyController extends TabController {
         hbox.getChildren().addAll(circle, dateLabel, descriptionLabel, valueLabel);
         return hbox;
     }
+    private void updateTransactions() {
 
-    public void updateNetEarnings() {
+        BasicApplication.sortTransactionsByDate();
+        transactionsVBox.getChildren().clear();
+
+        BasicApplication.getMoneyObject().getTransactions().forEach(transaction -> {
+            transactionsVBox.getChildren().add(getTransactionNode(transaction));
+        });
+    }
+
+    private void updateNetEarnings() {
 
         // add MoneyInSources
         double earningsIn = BasicApplication.getMoneyObject().getMoneyInSources().stream().mapToDouble(MoneyObject.MoneyInObject::getValue).sum();
@@ -472,12 +479,12 @@ public class MoneyController extends TabController {
         double net = earningsIn - earningsOut;
         String sign = net >= 0 ? " + " : " - ";
         DecimalFormat df = new DecimalFormat("#,###.00");
-        netEarningsLabel.setText(sign + "$" + df.format(Math.abs(net)));
+        netEarningsLabel.setText(sign + "$" + df.format(Math.abs(net)) + " / Week");
 
         // set value in object
         BasicApplication.getMoneyObject().setNetMoney(net);
     }
-    public void updateAvailableFunds() {
+    private void updateAvailableFunds() {
 
         double net = BasicApplication.getMoneyObject().getTransactions().stream().mapToDouble(transaction -> transaction.getValue()).sum();
         BasicApplication.getMoneyObject().setAvailableFunds(net);
