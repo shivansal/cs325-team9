@@ -143,10 +143,10 @@ public abstract class MoneyObjectController extends ScreenController {
 
         unitsComboBox = new ComboBox();
         ArrayList<String> unitItems = new ArrayList<>();
-        unitItems.add("per Day");
+        //unitItems.add("per Day");
         unitItems.add("per Week");
-        unitItems.add("per Month");
-        unitItems.add("per Year");
+        //unitItems.add("per Month");
+        //unitItems.add("per Year");
         unitsComboBox.setItems(FXCollections.observableList(unitItems));
         unitsComboBox.prefHeightProperty().bind(unitsLabel.heightProperty());
         unitsComboBox.prefWidthProperty().bind(Bindings.multiply(unitsLabel.widthProperty(), 2));

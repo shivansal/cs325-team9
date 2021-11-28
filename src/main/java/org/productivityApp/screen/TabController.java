@@ -156,7 +156,7 @@ public class TabController extends ScreenController {
     }
 
     private void updateDateTime() {
-        System.out.println("Update Time: " + LocalDateTime.now());
+        //System.out.println("Update Time: " + LocalDateTime.now());
 
         Locale locale = new Locale("en", "US");
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(locale);

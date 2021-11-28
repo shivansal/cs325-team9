@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class CSVReader {
 
-    public static ArrayList<String> readCategoryCSV() throws IOException {
+    public static ArrayList<String> readCategoryCSV() {
         ArrayList<String> categories = new ArrayList<>();
 
         try (
@@ -30,12 +30,16 @@ public class CSVReader {
                 String categoryName = csvRecord.get(0);
                 categories.add(categoryName);
             }
+        } catch(Exception e) {
+
+            System.out.println("File Not Found: Categories");
+            categories.add("None");
         }
 
         return categories;
     }
 
-    public static ArrayList<TodoTask> readTodoTasksCSV() throws IOException {
+    public static ArrayList<TodoTask> readTodoTasksCSV() {
 
         ArrayList<TodoTask> todoTasks = new ArrayList<>();
 
@@ -85,12 +89,15 @@ public class CSVReader {
                 TodoTask todoTask = new TodoTask(taskName, localDate, localTime, taskRecurringKey, taskRecurringDays, taskPriority, taskCategories);
                 todoTasks.add(todoTask);
             }
+        } catch (Exception e) {
+
+            System.out.println("File Not Found: TodoTasks");
         }
 
         return todoTasks;
     }
 
-    public static MoneyObject readMoneyCSV() throws IOException {
+    public static MoneyObject readMoneyCSV() {
 
         MoneyObject moneyObject = new MoneyObject();
 
@@ -218,9 +225,9 @@ public class CSVReader {
 
                     moneyObject.addTransaction(date, description, value);
                 }
-
-
             }
+        } catch(Exception e) {
+            System.out.println("File Not Found: Money");
         }
 
         return moneyObject;

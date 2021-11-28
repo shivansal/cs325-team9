@@ -339,8 +339,6 @@ public abstract class TaskController extends ScreenController {
         initNavButtons(firstColMargin, 750);
 
         setInitialValues();
-
-        System.out.println(BasicApplication.getTodoTasks().get(selectedTaskIndex).getTaskCategories().size());
     }
 
     protected void updateCategories() {
