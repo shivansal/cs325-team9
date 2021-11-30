@@ -116,5 +116,6 @@
     <orderEntry type="library" name="Maven: org.apache.maven.shared:maven-shared-io:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven:maven-compat:3.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.shared:maven-shared-utils:3.2.1" level="project" />
+    <orderEntry type="library" name="JavaFX12" level="application" />
   </component>
 </module>
