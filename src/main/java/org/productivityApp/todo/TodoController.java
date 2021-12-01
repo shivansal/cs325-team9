@@ -218,7 +218,7 @@ public class TodoController extends TabController {
         tempLabel.setPrefHeight(30.0);
         tempLabel.setPrefWidth(360.0);
         tempLabel.setFont(new Font(18));
-        tempLabel.setStyle("-fx-border-color: black;");
+        tempLabel.setStyle("-fx-border-color: #bebebe;");
         tempLabel.setPadding(new Insets(0, 0, 0, 10));
         HBox.setMargin(tempLabel, new Insets(10,10,10,10));
 
@@ -228,7 +228,7 @@ public class TodoController extends TabController {
         tempLabelDate.setPrefWidth(250);
         tempLabelDate.setFont(new Font(18));
         tempLabelDate.setAlignment(Pos.CENTER);
-        tempLabelDate.setStyle("-fx-border-color: black;");
+        tempLabelDate.setStyle("-fx-border-color: #bebebe;");
         tempLabelDate.setPadding(new Insets(0, 5, 0, 5));
         HBox.setMargin(tempLabelDate, new Insets(0, 10, 0, 10));
 
