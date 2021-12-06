@@ -84,7 +84,7 @@ public class TodoController extends TabController {
         taskScrollPane.setLayoutX(x);
         taskScrollPane.setLayoutY(y);
         taskScrollPane.setPrefWidth(500);
-        taskScrollPane.setPrefHeight(540);
+        taskScrollPane.setPrefHeight(490);
         taskScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         taskScrollPane.setStyle("-fx-background-color: transparent");
 
@@ -206,31 +206,36 @@ public class TodoController extends TabController {
         // container for task (selection box)
         HBox tempHBox = new HBox();
         tempHBox.setAlignment(Pos.CENTER_LEFT);
+        VBox.setMargin(tempHBox, new Insets(0, 10, 0, 0));
 
         // bullet point
         Circle tempCircle = new Circle();
-        tempCircle.setRadius(5.0);
-        tempCircle.setFill(Color.BLACK);
+        tempCircle.setRadius(8.0);
+        tempCircle.setFill(Color.valueOf("#bebebe"));
         HBox.setMargin(tempCircle, new Insets(5, 5, 5, 5));
 
         // task name
         Label tempLabel = new Label(task.getTaskName());
-        tempLabel.setPrefHeight(30.0);
-        tempLabel.setPrefWidth(360.0);
-        tempLabel.setFont(new Font(18));
-        tempLabel.setStyle("-fx-border-color: #bebebe;");
+        tempLabel.setPrefHeight(60.0);
+        tempLabel.setMinHeight(60.0);
+        tempLabel.setPrefWidth(350.0);
+        tempLabel.setFont(new Font(24));
         tempLabel.setPadding(new Insets(0, 0, 0, 10));
-        HBox.setMargin(tempLabel, new Insets(10,10,10,10));
+        HBox.setMargin(tempLabel, new Insets(10,5,10,10));
+
+        tempLabel.setStyle("-fx-border-color: #bebebe;");
 
         // task due date countdown
         Label tempLabelDate = new Label();
-        tempLabelDate.setPrefHeight(30.0);
+        tempLabelDate.setPrefHeight(60.0);
+        tempLabelDate.setMinHeight(60.0);
         tempLabelDate.setPrefWidth(250);
-        tempLabelDate.setFont(new Font(18));
+        tempLabelDate.setFont(new Font(24));
         tempLabelDate.setAlignment(Pos.CENTER);
-        tempLabelDate.setStyle("-fx-border-color: #bebebe;");
         tempLabelDate.setPadding(new Insets(0, 5, 0, 5));
-        HBox.setMargin(tempLabelDate, new Insets(0, 10, 0, 10));
+        HBox.setMargin(tempLabelDate, new Insets(0, 10, 0, 5));
+
+        tempLabelDate.setStyle("-fx-border-color: #bebebe;");
 
         tempLabelDate.setText(getCountDownString(task));
 
