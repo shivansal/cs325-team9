@@ -68,7 +68,7 @@ public abstract class TaskController extends ScreenController {
 
         dueLabelHBox = new HBox();
         dueLabelHBox.setAlignment(Pos.CENTER);
-        VBox.setMargin(dueLabelHBox, new Insets(10, 10, 10, 10));
+        VBox.setMargin(dueLabelHBox, new Insets(30, 10, 10, 10));
 
         dueLabel = new Label("Due:");
         dueLabel.setFont(taskNameLabel.getFont());
@@ -255,69 +255,95 @@ public abstract class TaskController extends ScreenController {
     }
     protected abstract void setInitialPriorityValue();
 
+    protected HBox categoriesHBox;
     protected Label categoriesLabel;
     protected ComboBox categoriesComboBox;
     protected Button assignCategoryButton;
-    protected ScrollPane categoriesScrollPane;
-    protected VBox categoriesVBox;
-    protected Button removeCategoryButton;
-    protected Button manageCategoriesButton;
-    private void initCategories(double firstColMargin, double secondColMargin, double topMargin, Font font) {
+    private void initCategoriesHeading() {
+
+        categoriesHBox = new HBox();
+        categoriesHBox.setAlignment(Pos.CENTER_LEFT);
+        VBox.setMargin(categoriesHBox, new Insets(50, 10, 10, 10));
 
         categoriesLabel = new Label("Categories: ");
-        categoriesLabel.setFont(font);
-        categoriesLabel.setLayoutX(firstColMargin);
-        categoriesLabel.setLayoutY(topMargin);
+        categoriesLabel.setFont(taskNameLabel.getFont());
         categoriesLabel.setAlignment(Pos.CENTER);
+        HBox.setMargin(categoriesLabel, new Insets(0, 20, 0, 0));
 
         categoriesComboBox = new ComboBox();
-        categoriesComboBox.setLayoutX(secondColMargin);
-        categoriesComboBox.setLayoutY(topMargin);
-        categoriesComboBox.prefWidthProperty().bind(datePicker.widthProperty());
-        categoriesComboBox.prefHeightProperty().bind(categoriesLabel.heightProperty());
+        categoriesComboBox.prefWidthProperty().bind(Bindings.multiply(categoriesLabel.widthProperty(), 2));
+        HBox.setMargin(categoriesComboBox, new Insets(0, 20, 0, 0));
 
         assignCategoryButton = new Button();
         assignCategoryButton.setText("Assign Category");
-        assignCategoryButton.setLayoutX(secondColMargin + 200);
-        assignCategoryButton.setLayoutY(topMargin);
-        assignCategoryButton.prefHeightProperty().bind(categoriesLabel.heightProperty());
+        HBox.setMargin(assignCategoryButton, new Insets(0, 0, 0, 0));
         assignCategoryButton.setOnAction(event -> {
             addCategoryPressed((String)categoriesComboBox.getValue());
         });
 
+        categoriesComboBox.prefWidthProperty().bind(assignCategoryButton.widthProperty());
+
+        categoriesHBox.getChildren().addAll(categoriesLabel, categoriesComboBox, assignCategoryButton);
+        screenVBox.getChildren().add(categoriesHBox);
+    }
+
+    protected HBox categoriesScrollPaneHBox;
+    protected ScrollPane categoriesScrollPane;
+    protected VBox categoriesVBox;
+    private void initCategoriesScrollPane() {
+
+        categoriesScrollPaneHBox = new HBox();
+        categoriesScrollPaneHBox.setAlignment(Pos.CENTER_LEFT);
+        VBox.setVgrow(categoriesScrollPaneHBox, Priority.ALWAYS);
+
         categoriesScrollPane = new ScrollPane();
-        categoriesScrollPane.setLayoutX(firstColMargin);
-        categoriesScrollPane.setLayoutY(topMargin + 50);
-        categoriesScrollPane.setPrefHeight(250);
-        categoriesScrollPane.setPrefWidth(500);
+        categoriesScrollPane.prefHeightProperty().bind(categoriesScrollPaneHBox.heightProperty());
+        categoriesScrollPane.prefWidthProperty().bind(categoriesScrollPaneHBox.widthProperty());
         categoriesScrollPane.setStyle("-fx-background-color: transparent");
 
         categoriesVBox = new VBox();
-        categoriesVBox.setPrefHeight(240);
-        categoriesVBox.setPrefWidth(490);
+        categoriesVBox.prefHeightProperty().bind(Bindings.subtract(categoriesScrollPane.heightProperty(), 10));
+        categoriesVBox.prefWidthProperty().bind(Bindings.subtract(categoriesScrollPane.widthProperty(), 10));
+        categoriesVBox.setStyle("-fx-border-color: #bebebe; -fx-border-radius: 10 10 10 10");
 
         categoriesScrollPane.setContent(categoriesVBox);
 
-        int buttonWidth = 140;
-        int buttonHeight = 40;
+        categoriesScrollPaneHBox.getChildren().addAll(categoriesScrollPane);
+        screenVBox.getChildren().addAll(categoriesScrollPaneHBox);
+    }
+
+    protected HBox bottomButtonsHBox;
+    protected VBox navButtonsVBox;
+    protected VBox categoryButtonsVBox;
+    protected Pane bottomButtonsFillerPane;
+    protected Button removeCategoryButton;
+    protected Button manageCategoriesButton;
+    protected HBox navButtonsHBox;
+    protected Button backButton;
+    protected Button saveTaskButton;
+    private void initBottomButtons() {
+
+        bottomButtonsHBox = new HBox();
+        bottomButtonsHBox.setAlignment(Pos.CENTER);
+        VBox.setMargin(bottomButtonsHBox, new Insets(0, 0, 0, 10));
+
+        // group category buttons into one vbox
+        categoryButtonsVBox = new VBox();
+        categoryButtonsVBox.setAlignment(Pos.BOTTOM_RIGHT);
 
         removeCategoryButton = new Button();
+        removeCategoryButton.setFont(new Font(20));
         removeCategoryButton.setText("Remove Category");
-        removeCategoryButton.setLayoutX(370);
-        removeCategoryButton.setLayoutY(700);
-        removeCategoryButton.setPrefWidth(buttonWidth);
-        removeCategoryButton.setPrefHeight(buttonHeight);
         removeCategoryButton.setDisable(true);
+        VBox.setMargin(removeCategoryButton, new Insets(0, 10, 10, 0));
         removeCategoryButton.setOnAction(event -> {
             removeCategory();
         });
 
         manageCategoriesButton = new Button();
+        manageCategoriesButton.setFont(removeCategoryButton.getFont());
         manageCategoriesButton.setText("Manage Categories");
-        manageCategoriesButton.setLayoutX(370);
-        manageCategoriesButton.setLayoutY(750);
-        manageCategoriesButton.setPrefWidth(buttonWidth);
-        manageCategoriesButton.setPrefHeight(buttonHeight);
+        VBox.setMargin(manageCategoriesButton, new Insets(0, 10, 0, 0));
         manageCategoriesButton.setOnAction(event -> {
 
             Stage newStage = new Stage();
@@ -326,39 +352,48 @@ public abstract class TaskController extends ScreenController {
             controller.initialize(newStage, this);
         });
 
-        anchorPane.getChildren().addAll(categoriesLabel, categoriesComboBox, assignCategoryButton, categoriesScrollPane, removeCategoryButton, manageCategoriesButton);
-    }
-    protected void setInitialCategories() {
-        updateCategories();
-    }
+        removeCategoryButton.prefWidthProperty().bind(manageCategoriesButton.widthProperty());
+        removeCategoryButton.prefHeightProperty().bind(manageCategoriesButton.heightProperty());
 
-    protected Button backButton;
-    protected Button saveTaskButton;
-    private void initNavButtons(double x, double y) {
+        categoryButtonsVBox.getChildren().addAll(removeCategoryButton, manageCategoriesButton);
 
-        int buttonWidth = 140;
-        int buttonHeight = 40;
+        // group nav buttons into one vbox
+        navButtonsVBox = new VBox();
+        navButtonsVBox.setAlignment(Pos.BOTTOM_LEFT);
+
+        navButtonsHBox = new HBox();
+        navButtonsHBox.setAlignment(Pos.BOTTOM_LEFT);
 
         backButton = new Button();
+        backButton.setFont(manageCategoriesButton.getFont());
         backButton.setText("Back");
-        backButton.setLayoutX(x);
-        backButton.setLayoutY(y);
-        backButton.setPrefWidth(buttonWidth);
-        backButton.setPrefHeight(buttonHeight);
+        backButton.prefWidthProperty().bind(Bindings.multiply(manageCategoriesButton.widthProperty(), 0.5));
+        backButton.prefHeightProperty().bind(manageCategoriesButton.heightProperty());
+        HBox.setMargin(backButton, new Insets(0, 10, 0, 0));
         backButton.setOnAction(event -> {
-           TodoController controller = new TodoController();
-           controller.initialize(stage);
+            TodoController controller = new TodoController();
+            controller.initialize(stage);
         });
 
         saveTaskButton = new Button();
+        saveTaskButton.setFont(backButton.getFont());
         saveTaskButton.setText("Save");
-        saveTaskButton.setLayoutX(x + buttonWidth + 10);
-        saveTaskButton.setLayoutY(y);
-        saveTaskButton.setPrefWidth(buttonWidth);
-        saveTaskButton.setPrefHeight(buttonHeight);
+        saveTaskButton.prefWidthProperty().bind(backButton.widthProperty());
+        saveTaskButton.prefHeightProperty().bind(backButton.heightProperty());
         setSaveTaskButtonOnAction();
 
-        anchorPane.getChildren().addAll(backButton, saveTaskButton);
+        navButtonsHBox.getChildren().addAll(backButton, saveTaskButton);
+        navButtonsVBox.getChildren().addAll(navButtonsHBox);
+
+        // push right vbox to right with hgrow
+        bottomButtonsFillerPane = new Pane();
+        HBox.setHgrow(bottomButtonsFillerPane, Priority.ALWAYS);
+
+        bottomButtonsHBox.getChildren().addAll(navButtonsVBox, bottomButtonsFillerPane, categoryButtonsVBox);
+        screenVBox.getChildren().addAll(bottomButtonsHBox);
+    }
+    protected void setInitialCategories() {
+        updateCategories();
     }
     protected abstract void setSaveTaskButtonOnAction();
 
@@ -382,21 +417,14 @@ public abstract class TaskController extends ScreenController {
 
         super.initialize(stage);
 
-        Font font = new Font(24);
-
-        double firstColMargin = 10.0;
-        double secondColMargin = 140.0;
-
         initScreenVBox();
         initName();
         initDue();
         initDatePicker();
         initTimePicker();
-
-        //initRecurring(firstColMargin, secondColMargin, 220, font);
-        //initPriority(firstColMargin, secondColMargin, 350, font);
-        initCategories(firstColMargin, secondColMargin, 420, font);
-        initNavButtons(firstColMargin, 750);
+        initCategoriesHeading();
+        initCategoriesScrollPane();
+        initBottomButtons();
 
         setInitialValues();
     }
