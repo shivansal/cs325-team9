@@ -401,7 +401,7 @@ public class MoneyController extends TabController {
 
         // bullet point
         Circle circle = new Circle();
-        circle.setFill(Color.BLACK);
+        circle.setFill(Color.valueOf("#bebebe"));
         circle.setRadius(6);
         HBox.setMargin(circle, new Insets(0, 2, 0, 2));
 
@@ -411,7 +411,7 @@ public class MoneyController extends TabController {
         dateLabel.setFont(new Font(18));
         dateLabel.prefWidthProperty().bind(Bindings.multiply(hbox.widthProperty(), 0.25));
         dateLabel.setText(transaction.getDate().toString());
-        dateLabel.setStyle("-fx-border-color: black");
+        dateLabel.setStyle("-fx-border-color: #bebebe; -fx-border-radius: 5 5 5 5");
         dateLabel.setPadding(new Insets(5, 5, 5, 5));
         HBox.setMargin(dateLabel, new Insets(0, 2, 0, 2));
 
@@ -421,7 +421,7 @@ public class MoneyController extends TabController {
         descriptionLabel.prefWidthProperty().bind(Bindings.multiply(hbox.widthProperty(), 0.40));
         descriptionLabel.setFont(dateLabel.getFont());
         descriptionLabel.setText(transaction.getDescription());
-        descriptionLabel.setStyle("-fx-border-color: black");
+        descriptionLabel.setStyle("-fx-border-color: #bebebe; -fx-border-radius: 5 5 5 5");
         descriptionLabel.setPadding(dateLabel.getPadding());
         HBox.setMargin(descriptionLabel, HBox.getMargin(dateLabel));
         HBox.setHgrow(descriptionLabel, Priority.ALWAYS);
@@ -432,7 +432,7 @@ public class MoneyController extends TabController {
         valueLabel.prefWidthProperty().bind(Bindings.multiply(hbox.widthProperty(), 0.3));
         valueLabel.setFont(dateLabel.getFont());
         valueLabel.setPadding(descriptionLabel.getPadding());
-        valueLabel.setStyle("-fx-border-color: black");
+        valueLabel.setStyle("-fx-border-color: #bebebe; -fx-border-radius: 5 5 5 5");
 
         String sign = transaction.getValue() >= 0 ? "+ " : "- ";
         DecimalFormat df = new DecimalFormat("#,###.00");
@@ -444,7 +444,7 @@ public class MoneyController extends TabController {
             transactionsVBox.getChildren().forEach((n) -> n.setStyle(null));
 
             // select clicked on task
-            hbox.setStyle("-fx-border-color: blue;");
+            hbox.setStyle("-fx-border-color: blue; -fx-border-radius: 5 5 5 5");
 
             // enable relevant buttons
             removeTransactionButton.setDisable(false);

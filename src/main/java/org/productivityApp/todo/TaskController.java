@@ -522,7 +522,7 @@ public abstract class TaskController extends ScreenController {
         tempLabel.setPrefHeight(30.0);
         tempLabel.setPrefWidth(360.0);
         tempLabel.setFont(new Font(18));
-        tempLabel.setStyle("-fx-border-color: black;");
+        tempLabel.setStyle("-fx-border-color: black; -fx-border-radius: 5 5 5 5");
         tempLabel.setPadding(new Insets(0, 0, 0, 10));
 
         HBox.setMargin(tempLabel, new Insets(10,10,10,10));
@@ -532,10 +532,10 @@ public abstract class TaskController extends ScreenController {
         tempHBox.setOnMouseClicked(MouseEvent -> {
 
             // deselect all tasks
-            categoriesVBox.getChildren().forEach((n) -> n.setStyle(null));
+            categoriesVBox.getChildren().forEach((n) -> ((HBox)n).getChildren().get(1).setStyle("-fx-border-color: black; -fx-border-radius: 5 5 5 5"));
 
             // visually select task that was clicked on
-            tempHBox.setStyle("-fx-border-color: blue;");
+            tempLabel.setStyle("-fx-border-color: blue; -fx-border-radius: 5 5 5 5");
 
             // enable relevant buttons
             removeCategoryButton.setDisable(false);

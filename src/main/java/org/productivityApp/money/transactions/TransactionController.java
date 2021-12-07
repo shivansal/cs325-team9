@@ -26,7 +26,6 @@ public abstract class TransactionController extends ScreenController {
         screenVBox.setLayoutY(5);
         screenVBox.prefWidthProperty().bind(Bindings.subtract(anchorPane.prefWidthProperty(), 10));
         screenVBox.prefHeightProperty().bind(Bindings.subtract(anchorPane.prefHeightProperty(), 10));
-        screenVBox.setStyle("-fx-border-color: black");
 
         anchorPane.getChildren().add(screenVBox);
     }
@@ -38,7 +37,7 @@ public abstract class TransactionController extends ScreenController {
         transactionLabelHBox = new HBox();
         transactionLabelHBox.setAlignment(Pos.CENTER);
         transactionLabelHBox.prefWidthProperty().bind(Bindings.subtract(screenVBox.widthProperty(), 0));
-        transactionLabelHBox.setStyle("-fx-border-color: black");
+        transactionLabelHBox.setStyle("-fx-border-color: black; -fx-border-radius: 5 5 5 5");
         VBox.setMargin(transactionLabelHBox, new Insets(10, 5, 10, 5));
 
         transactionLabel = new Label();

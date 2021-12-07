@@ -28,7 +28,6 @@ public abstract class MoneyObjectController extends ScreenController {
         screenVBox.setLayoutY(5);
         screenVBox.prefWidthProperty().bind(Bindings.subtract(anchorPane.prefWidthProperty(), 10));
         screenVBox.prefHeightProperty().bind(Bindings.subtract(anchorPane.prefHeightProperty(), 10));
-        screenVBox.setStyle("-fx-border-color: black");
 
         anchorPane.getChildren().add(screenVBox);
     }
@@ -40,7 +39,7 @@ public abstract class MoneyObjectController extends ScreenController {
         moneyLabelHBox = new HBox();
         moneyLabelHBox.setAlignment(Pos.CENTER);
         moneyLabelHBox.prefWidthProperty().bind(Bindings.subtract(screenVBox.widthProperty(), 0));
-        moneyLabelHBox.setStyle("-fx-border-color: black");
+        moneyLabelHBox.setStyle("-fx-border-color: black; -fx-border-radius: 5 5 5 5");
         VBox.setMargin(moneyLabelHBox, new Insets(10, 5, 10, 5));
 
         moneyLabel = new Label();
