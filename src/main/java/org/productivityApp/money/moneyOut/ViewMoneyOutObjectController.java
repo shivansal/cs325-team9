@@ -53,8 +53,7 @@ public class ViewMoneyOutObjectController extends MoneyOutObjectController {
 
     public void initialize(Stage stage, int moneyOutObjectIndex) {
 
-        super.initialize(stage);
-
         this.moneyOutObjectIndex = moneyOutObjectIndex;
+        super.initialize(stage);
     }
 }

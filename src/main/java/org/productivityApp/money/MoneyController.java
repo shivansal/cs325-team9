@@ -104,6 +104,7 @@ public class MoneyController extends TabController {
 
         moneyInViewItemDetailsButton.setOnAction(event -> {
             ViewMoneyInObjectController controller = new ViewMoneyInObjectController();
+            System.out.println(moneyInComboBox.getSelectionModel().getSelectedIndex());
             controller.initialize(stage, moneyInComboBox.getSelectionModel().getSelectedIndex());
         });
 

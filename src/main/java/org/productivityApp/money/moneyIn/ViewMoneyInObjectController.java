@@ -54,9 +54,7 @@ public class ViewMoneyInObjectController extends MoneyInObjectController {
 
     public void initialize(Stage stage, int moneyInObjectIndex) {
 
-        super.initialize(stage);
         this.moneyInObjectIndex = moneyInObjectIndex;
-        System.out.println(moneyInObjectIndex);
-
+        super.initialize(stage);
     }
 }
