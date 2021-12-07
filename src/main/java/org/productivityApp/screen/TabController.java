@@ -46,7 +46,7 @@ public class TabController extends ScreenController {
         currentDateLabel.setLayoutX(x);
         currentDateLabel.setLayoutY(y);
         currentDateLabel.setAlignment(Pos.CENTER);
-        currentDateLabel.setStyle("-fx-border-color: black");
+        currentDateLabel.setStyle("-fx-border-color: black; -fx-border-radius: 5 5 5 5");
         currentDateLabel.setPrefWidth(270);
         currentDateLabel.setPrefHeight(25);
 
@@ -54,7 +54,7 @@ public class TabController extends ScreenController {
         currentTimeLabel.setLayoutX(x);
         currentTimeLabel.setLayoutY(y + 35);
         currentTimeLabel.setAlignment(Pos.CENTER);
-        currentTimeLabel.setStyle("-fx-border-color: black");
+        currentTimeLabel.setStyle("-fx-border-color: black; -fx-border-radius: 5 5 5 5");
         currentTimeLabel.prefWidthProperty().bind(currentDateLabel.widthProperty());
         currentTimeLabel.prefHeightProperty().bind(currentDateLabel.heightProperty());
 
@@ -73,7 +73,7 @@ public class TabController extends ScreenController {
         todoTabLabel.setAlignment(Pos.CENTER);
         todoTabLabel.setPrefWidth(150);
         todoTabLabel.setPrefHeight(30);
-        todoTabLabel.setStyle("-fx-border-color: black;");
+        todoTabLabel.setStyle("-fx-border-color: black; -fx-border-radius: 5 5 0 5");
         todoTabLabel.setOnMouseClicked(event -> {
             TodoController controller = new TodoController();
             controller.initialize(stage);
@@ -86,7 +86,7 @@ public class TabController extends ScreenController {
         moneyTabLabel.setAlignment(Pos.CENTER);
         moneyTabLabel.setPrefWidth(150);
         moneyTabLabel.setPrefHeight(30);
-        moneyTabLabel.setStyle("-fx-border-color: black");
+        moneyTabLabel.setStyle("-fx-border-color: black; -fx-border-radius: 5 0 0 5");
         moneyTabLabel.setOnMouseClicked(event -> {
             MoneyController controller = new MoneyController();
             controller.initialize(stage);
@@ -99,7 +99,7 @@ public class TabController extends ScreenController {
         settingsTabLabel.setAlignment(Pos.CENTER);
         settingsTabLabel.setPrefWidth(150);
         settingsTabLabel.setPrefHeight(30);
-        settingsTabLabel.setStyle("-fx-border-color: black");
+        settingsTabLabel.setStyle("-fx-border-color: black; -fx-border-radius: 5 0 5 5");
         settingsTabLabel.setOnMouseClicked(event -> {
             SettingsController controller = new SettingsController();
             controller.initialize(stage);
@@ -108,15 +108,15 @@ public class TabController extends ScreenController {
         if(menu.equals("Todo")) {
             todoTabLabel.setLayoutX(x - 50);
             todoTabLabel.setPrefWidth(200);
-            todoTabLabel.setStyle("-fx-border-color: black; -fx-background-color: #d7d6db");
+            todoTabLabel.setStyle("-fx-border-color: black; -fx-background-color: #d7d6db; -fx-border-radius: 5 5 0 5");
         } else if(menu.equals("Money")) {
             moneyTabLabel.setLayoutX(x - 50);
             moneyTabLabel.setPrefWidth(200);
-            moneyTabLabel.setStyle("-fx-border-color: black; -fx-background-color: #d7d6db");
+            moneyTabLabel.setStyle("-fx-border-color: black; -fx-background-color: #d7d6db; -fx-border-radius: 5 0 0 5");
         } else if(menu.equals("Settings")) {
             settingsTabLabel.setLayoutX(x - 50);
             settingsTabLabel.setPrefWidth(200);
-            settingsTabLabel.setStyle("-fx-border-color: black; -fx-background-color: #d7d6db");
+            settingsTabLabel.setStyle("-fx-border-color: black; -fx-background-color: #d7d6db; -fx-border-radius: 5 0 5 5");
         } else {
             System.out.println("Invalid Menu Key");
         }

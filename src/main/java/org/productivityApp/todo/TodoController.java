@@ -84,7 +84,7 @@ public class TodoController extends TabController {
         taskScrollPane.setLayoutX(x);
         taskScrollPane.setLayoutY(y);
         taskScrollPane.setPrefWidth(500);
-        taskScrollPane.setPrefHeight(490);
+        taskScrollPane.setPrefHeight(500);
         taskScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         taskScrollPane.setStyle("-fx-background-color: transparent");
 
@@ -198,7 +198,7 @@ public class TodoController extends TabController {
 
         // redraw selected task
         if(selectedTaskIndex != -1) {
-            taskVBox.getChildren().get(selectedTaskIndex).setStyle("-fx-border-color: blue;");
+            taskVBox.getChildren().get(selectedTaskIndex).setStyle("-fx-border-color: blue; -fx-border-radius: 5 5 5 5");
         }
     }
     private void addTaskNode(TodoTask task) {
@@ -223,7 +223,7 @@ public class TodoController extends TabController {
         tempLabel.setPadding(new Insets(0, 0, 0, 10));
         HBox.setMargin(tempLabel, new Insets(10,5,10,10));
 
-        tempLabel.setStyle("-fx-border-color: #bebebe;");
+        tempLabel.setStyle("-fx-border-color: #bebebe; -fx-border-radius: 5 5 5 5");
 
         // task due date countdown
         Label tempLabelDate = new Label();
@@ -235,7 +235,7 @@ public class TodoController extends TabController {
         tempLabelDate.setPadding(new Insets(0, 5, 0, 5));
         HBox.setMargin(tempLabelDate, new Insets(0, 10, 0, 5));
 
-        tempLabelDate.setStyle("-fx-border-color: #bebebe;");
+        tempLabelDate.setStyle("-fx-border-color: #bebebe; -fx-border-radius: 5 5 5 5");
 
         tempLabelDate.setText(getCountDownString(task));
 
@@ -248,7 +248,7 @@ public class TodoController extends TabController {
             taskVBox.getChildren().forEach((n) -> n.setStyle(null));
 
             // select clicked on task
-            tempHBox.setStyle("-fx-border-color: blue;");
+            tempHBox.setStyle("-fx-border-color: blue; -fx-border-radius: 5 5 5 5");
 
             // enable relevant buttons
             removeTaskButton.setDisable(false);

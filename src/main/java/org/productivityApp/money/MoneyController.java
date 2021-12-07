@@ -45,7 +45,7 @@ public class MoneyController extends TabController {
         netEarningsLabel.setAlignment(Pos.CENTER);
         netEarningsLabel.setFont(new Font(24));
         netEarningsLabel.prefWidthProperty().bind(screenVBox.widthProperty());
-        netEarningsLabel.setStyle("-fx-border-color: black");
+        netEarningsLabel.setStyle("-fx-border-color: black; -fx-border-radius: 10 10 10 10");
         netEarningsLabel.setPadding(new Insets(5, 5, 5, 5));
         VBox.setMargin(netEarningsLabel, new Insets(10, 0, 10, 0));
 
@@ -230,7 +230,7 @@ public class MoneyController extends TabController {
         availableFundsValueLabel = new Label("Funds: $10000");
         availableFundsValueLabel.setFont(new Font(24));
         availableFundsValueLabel.setAlignment(Pos.CENTER);
-        availableFundsValueLabel.setStyle("-fx-border-color: black");
+        availableFundsValueLabel.setStyle("-fx-border-color: black; -fx-border-radius: 10 10 10 10");
         availableFundsValueLabel.setPadding(new Insets(5, 10, 5, 10));
         availableFundsValueLabel.prefWidthProperty().bind(Bindings.subtract(Bindings.subtract(netEarningsLabel.widthProperty(), availableFundsLabel.widthProperty()), 40));
         HBox.setMargin(availableFundsValueLabel, new Insets(0, 0, 0, 0));

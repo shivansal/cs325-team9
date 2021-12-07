@@ -71,18 +71,19 @@ public class ViewTaskController extends TaskController {
             selectedTask.setTaskName(taskNameTextField.getText());
             selectedTask.setTaskDate(datePicker.getValue());
             selectedTask.setTaskTime(getTime());
-            selectedTask.setTaskRecurringKey((String)recurringComboBox.getValue());
-            boolean[] dayVals = {
-                    sunToggleButton.isSelected(),
-                    monToggleButton.isSelected(),
-                    tueToggleButton.isSelected(),
-                    wedToggleButton.isSelected(),
-                    thuToggleButton.isSelected(),
-                    friToggleButton.isSelected(),
-                    satToggleButton.isSelected()
-            };
-            selectedTask.setTaskRecurringDays(dayVals);
-            selectedTask.setTaskPriority((String)priorityComboBox.getValue());
+
+            //selectedTask.setTaskRecurringKey((String)recurringComboBox.getValue());
+//            boolean[] dayVals = {
+//                    sunToggleButton.isSelected(),
+//                    monToggleButton.isSelected(),
+//                    tueToggleButton.isSelected(),
+//                    wedToggleButton.isSelected(),
+//                    thuToggleButton.isSelected(),
+//                    friToggleButton.isSelected(),
+//                    satToggleButton.isSelected()
+//            };
+//            selectedTask.setTaskRecurringDays(dayVals);
+//            selectedTask.setTaskPriority((String)priorityComboBox.getValue());
             selectedTask.setTaskCategories(nodeListToCategoryList());
 
             // save task
