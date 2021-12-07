@@ -51,17 +51,16 @@ public class SettingsController extends TabController {
         notificationsHBox = new HBox();
         notificationsHBox.setAlignment(Pos.CENTER_LEFT);
         notificationsHBox.prefWidthProperty().bind(screenVBox.widthProperty());
-        VBox.setMargin(notificationsHBox, new Insets(10, 0, 5, 0));
+        VBox.setMargin(notificationsHBox, new Insets(10, 0, 0, 10));
 
         notificationsLabel = new Label("Notifications: ");
         notificationsLabel.setFont(new Font(26));
         notificationsLabel.setAlignment(Pos.CENTER_LEFT);
-        HBox.setMargin(notificationsLabel, new Insets(10, 10, 0, 10));
+        HBox.setMargin(notificationsLabel, new Insets(0, 50, 0, 0));
 
         notificationsComboBox = new ComboBox();
         notificationsComboBox.prefHeightProperty().bind(notificationsLabel.heightProperty());
         notificationsComboBox.prefWidthProperty().bind(Bindings.multiply(notificationsHBox.widthProperty(), 0.4));
-        HBox.setMargin(notificationsComboBox, new Insets(10, 10, 10, 40));
 
         notificationsComboBox.setOnAction(event -> {
            BasicApplication.getSettingsObject().setNotificationOption((String)notificationsComboBox.getValue());
@@ -87,17 +86,17 @@ public class SettingsController extends TabController {
         priorHBox = new HBox();
         priorHBox.setAlignment(Pos.CENTER_LEFT);
         priorHBox.prefWidthProperty().bind(screenVBox.widthProperty());
-        VBox.setMargin(priorHBox, new Insets(0, 10, 30, 10));
+        VBox.setMargin(priorHBox, new Insets(0, 10, 0, 10));
 
-        priorLabel = new Label("Pior: ");
+        priorLabel = new Label("Prior: ");
         priorLabel.setFont(new Font(20));
         priorLabel.setAlignment(Pos.CENTER_LEFT);
-        HBox.setMargin(priorLabel, new Insets(20, 10, 5, 10));
+        HBox.setMargin(priorLabel, new Insets(18, 0, 0, 0));
 
         priorVBox = new VBox();
         priorVBox.setAlignment(Pos.BOTTOM_CENTER);
         priorVBox.prefHeightProperty().bind(priorLabel.heightProperty());
-        HBox.setMargin(priorVBox, new Insets(10, 10, 10, 10));
+        HBox.setMargin(priorVBox, new Insets(0, 0, 0, 20));
 
         priorErrorLabel = new Label("Please Enter An Integer");
         priorErrorLabel.setFont(new Font(12));
@@ -108,6 +107,7 @@ public class SettingsController extends TabController {
         priorTextField.setFont(new Font(priorLabel.getFont().getSize() - 5));
         priorTextField.setPromptText("####");
         priorTextField.prefWidthProperty().bind(notificationsComboBox.widthProperty());
+        HBox.setMargin(priorTextField, new Insets(0, 0, 0, 10));
 
         priorTextField.focusedProperty().addListener((arg0, oldPropertyValue, newPropertyValue) -> {
 
@@ -128,7 +128,7 @@ public class SettingsController extends TabController {
 
         priorUnitsComboBox = new ComboBox();
         priorUnitsComboBox.prefHeightProperty().bind(priorTextField.heightProperty());
-        HBox.setMargin(priorUnitsComboBox, HBox.getMargin(priorLabel));
+        HBox.setMargin(priorUnitsComboBox, new Insets(18, 0, 0, 10));
 
         priorUnitsComboBox.setOnAction(event -> {
             BasicApplication.getSettingsObject().setUnits((String)priorUnitsComboBox.getValue());
@@ -155,18 +155,17 @@ public class SettingsController extends TabController {
         themeHBox = new HBox();
         themeHBox.setAlignment(Pos.CENTER_LEFT);
         themeHBox.prefWidthProperty().bind(screenVBox.widthProperty());
-        VBox.setMargin(themeHBox, VBox.getMargin(notificationsHBox));
+        VBox.setMargin(themeHBox, new Insets(60, 0, 0, 10));
 
         themeLabel = new Label("Theme: ");
         themeLabel.setAlignment(Pos.CENTER_LEFT);
         themeLabel.setFont(notificationsLabel.getFont());
         themeLabel.prefWidthProperty().bind(notificationsLabel.widthProperty());
-        HBox.setMargin(themeLabel, new Insets(10, 10, 10, 10));
 
         themeComboBox = new ComboBox();
         themeComboBox.prefHeightProperty().bind(themeLabel.heightProperty());
         themeComboBox.prefWidthProperty().bind(notificationsComboBox.widthProperty());
-        HBox.setMargin(themeComboBox, new Insets(10, 10, 10, 10));
+        HBox.setMargin(themeComboBox, new Insets(0, 0, 0, 20));
 
         ArrayList<String> themeOptions = new ArrayList<>();
         themeOptions.add("Default");
@@ -185,18 +184,17 @@ public class SettingsController extends TabController {
         timeZoneHBox = new HBox();
         timeZoneHBox.setAlignment(Pos.CENTER_LEFT);
         timeZoneHBox.prefWidthProperty().bind(screenVBox.widthProperty());
-        VBox.setMargin(timeZoneHBox, VBox.getMargin(notificationsHBox));
+        VBox.setMargin(timeZoneHBox, new Insets(20, 0, 0, 10));
 
         timeZoneLabel = new Label("Time Zone: ");
         timeZoneLabel.setAlignment(Pos.CENTER_LEFT);
         timeZoneLabel.setFont(themeLabel.getFont());
         timeZoneLabel.prefWidthProperty().bind(notificationsLabel.widthProperty());
-        HBox.setMargin(timeZoneLabel, new Insets(10, 10, 10, 10));
 
         timeZoneComboBox = new ComboBox();
         timeZoneComboBox.prefHeightProperty().bind(timeZoneLabel.heightProperty());
         timeZoneComboBox.prefWidthProperty().bind(themeComboBox.widthProperty());
-        HBox.setMargin(timeZoneComboBox, new Insets(10, 10, 10, 10));
+        HBox.setMargin(timeZoneComboBox, new Insets(0, 0, 0, 20));
 
         timeZoneComboBox.setItems(FXCollections.observableList(List.of(TimeZone.getAvailableIDs())));
 
