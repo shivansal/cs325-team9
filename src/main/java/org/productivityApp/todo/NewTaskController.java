@@ -30,7 +30,8 @@ public class NewTaskController extends TaskController {
 
     @Override
     protected void setInitialRecurringValue() {
-        recurringComboBox.getSelectionModel().select(0);
+        // todo
+    //    recurringComboBox.getSelectionModel().select(0);
     }
 
     @Override
@@ -40,7 +41,8 @@ public class NewTaskController extends TaskController {
 
     @Override
     protected void setInitialPriorityValue() {
-        priorityComboBox.getSelectionModel().select(2);
+        // todo
+        // priorityComboBox.getSelectionModel().select(2);
     }
 
     @Override
@@ -76,21 +78,27 @@ public class NewTaskController extends TaskController {
 
     protected void initializeSelectedTask() {
 
-        boolean[] toggleButtonVals =  { sunToggleButton.isSelected(),
-                monToggleButton.isSelected(),
-                tueToggleButton.isSelected(),
-                wedToggleButton.isSelected(),
-                thuToggleButton.isSelected(),
-                friToggleButton.isSelected(),
-                satToggleButton.isSelected()};
+        // todo
+//        boolean[] toggleButtonVals =  { sunToggleButton.isSelected(),
+//                monToggleButton.isSelected(),
+//                tueToggleButton.isSelected(),
+//                wedToggleButton.isSelected(),
+//                thuToggleButton.isSelected(),
+//                friToggleButton.isSelected(),
+//                satToggleButton.isSelected()};
+
+        boolean[] toggleButtonVals = new boolean[7];
+
+        String fillerRecurring = "";
+        String fillerPriority = "";
 
         selectedTask = new TodoTask(
                 taskNameTextField.getText(),
                 datePicker.getValue(),
                 getTime(),
-                (String)recurringComboBox.getValue(),
+                fillerRecurring,
                 toggleButtonVals,
-                (String)priorityComboBox.getValue(),
+                fillerPriority,
                 new ArrayList<>()
         );
 

@@ -29,24 +29,28 @@ public class ViewTaskController extends TaskController {
 
     @Override
     protected void setInitialRecurringValue() {
-        recurringComboBox.getSelectionModel().select(selectedTask.getTaskRecurringKey());
+        // todo
+        //recurringComboBox.getSelectionModel().select(selectedTask.getTaskRecurringKey());
     }
 
     @Override
     protected void setInitialRecurringDayValues() {
-        boolean[] selectedVals = selectedTask.getTaskRecurringDays();
-        sunToggleButton.setSelected(selectedVals[0]);
-        monToggleButton.setSelected(selectedVals[1]);
-        tueToggleButton.setSelected(selectedVals[2]);
-        wedToggleButton.setSelected(selectedVals[3]);
-        thuToggleButton.setSelected(selectedVals[4]);
-        friToggleButton.setSelected(selectedVals[5]);
-        satToggleButton.setSelected(selectedVals[6]);
+        // todo
+//        boolean[] selectedVals = selectedTask.getTaskRecurringDays();
+//        sunToggleButton.setSelected(selectedVals[0]);
+//        monToggleButton.setSelected(selectedVals[1]);
+//        tueToggleButton.setSelected(selectedVals[2]);
+//        wedToggleButton.setSelected(selectedVals[3]);
+//        thuToggleButton.setSelected(selectedVals[4]);
+//        friToggleButton.setSelected(selectedVals[5]);
+//        satToggleButton.setSelected(selectedVals[6]);
     }
 
     @Override
     protected void setInitialPriorityValue() {
-        priorityComboBox.getSelectionModel().select(selectedTask.getTaskPriority());
+
+        // todo
+        //priorityComboBox.getSelectionModel().select(selectedTask.getTaskPriority());
     }
 
     @Override
