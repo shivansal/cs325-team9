@@ -66,7 +66,7 @@ public class TabController extends ScreenController {
     protected Label settingsTabLabel;
     private void initTabs(double x, double y, String menu) {
 
-        todoTabLabel = new Label("TODO");
+        todoTabLabel = new Label("Todo");
         todoTabLabel.setFont(new Font(18));
         todoTabLabel.setLayoutX(x);
         todoTabLabel.setLayoutY(y);
@@ -79,7 +79,7 @@ public class TabController extends ScreenController {
             controller.initialize(stage);
         });
 
-        moneyTabLabel = new Label("Money");
+        moneyTabLabel = new Label("My Money");
         moneyTabLabel.setFont(new Font(18));
         moneyTabLabel.setLayoutX(x);
         moneyTabLabel.setLayoutY(y + 29);
